@@ -32,7 +32,10 @@
       "available": "Available",
       "reserved": "Reserved",
       "sold": "Sold"
-    }
+    },
+    "enquire": "Enquire about availability",
+    "highlights": "Construction and material highlights",
+    "gallery": "Gallery"
   },
   "gallery": {
     "label": "Project gallery",
@@ -57,7 +60,10 @@
   },
   "journal": {
     "readingTime": "{minutes} min read",
-    "empty": "The first articles are being written."
+    "empty": "The first articles are being written.",
+    "related": "Related articles",
+    "explore": "Explore VATUS residences",
+    "by": "By {name}"
   },
   "contact": {
     "formLabel": "Enquiry form",
@@ -93,5 +99,10 @@
       "residential-construction": "Residential construction",
       "general": "General enquiry"
     }
+  },
+  "pages": {
+    "about": "About VATUS",
+    "journal": "Journal",
+    "privacy": "Privacy policy"
   }
 }

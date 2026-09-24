@@ -32,7 +32,10 @@
       "available": "Disponível",
       "reserved": "Reservada",
       "sold": "Vendida"
-    }
+    },
+    "enquire": "Consultar disponibilidade",
+    "highlights": "Destaques de construção e materiais",
+    "gallery": "Galeria"
   },
   "gallery": {
     "label": "Galeria do projeto",
@@ -57,7 +60,10 @@
   },
   "journal": {
     "readingTime": "{minutes} min de leitura",
-    "empty": "Os primeiros artigos estão sendo escritos."
+    "empty": "Os primeiros artigos estão sendo escritos.",
+    "related": "Artigos relacionados",
+    "explore": "Conheça as residências VATUS",
+    "by": "Por {name}"
   },
   "contact": {
     "formLabel": "Formulário de contato",
@@ -93,5 +99,10 @@
       "residential-construction": "Construção residencial",
       "general": "Assunto geral"
     }
+  },
+  "pages": {
+    "about": "Sobre a VATUS",
+    "journal": "Journal",
+    "privacy": "Política de privacidade"
   }
 }

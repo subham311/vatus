@@ -1,4 +1,6 @@
+import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
+import { OrganizationJsonLd } from "@/components/layout/JsonLd";
 import { AvailableResidences } from "@/components/sections/AvailableResidences";
 import { BrandStatement } from "@/components/sections/BrandStatement";
 import { ConstructionQuality } from "@/components/sections/ConstructionQuality";
@@ -14,11 +16,24 @@ import { Materials } from "@/components/sections/Materials";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { SelectedResidence } from "@/components/sections/SelectedResidence";
 import type { Locale } from "@/i18n/routing";
+import { buildMetadata } from "@/lib/seo";
 import { getHome, getSettings } from "@/sanity/lib/data";
 
 /** A section renders unless an editor has switched it off. */
 const on = <T extends { enabled?: boolean | null } | null | undefined>(s: T): s is NonNullable<T> =>
   Boolean(s) && s?.enabled !== false;
+
+export async function generateMetadata({ params }: PageProps<"/[locale]">): Promise<Metadata> {
+  const { locale } = (await params) as { locale: Locale };
+  const [{ data: home }, { data: settings }] = await Promise.all([getHome(locale), getSettings(locale)]);
+  return buildMetadata({
+    locale,
+    paths: { pt: "/", en: "/" },
+    seo: home?.seo,
+    fallback: settings?.defaultSeo,
+    image: home?.hero?.image,
+  });
+}
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = (await params) as { locale: Locale };
@@ -39,6 +54,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   return (
     <main id="main">
+      <OrganizationJsonLd settings={settings} locale={locale} />
       {!heroH1 ? <h1 className="sr-only">VATUS</h1> : null}
       {on(home.hero) ? <Hero data={home.hero} /> : null}
       {on(home.manifesto) ? <Manifesto data={home.manifesto} /> : null}

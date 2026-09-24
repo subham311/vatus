@@ -5,5 +5,5 @@ export default createMiddleware(routing);
 
 export const config = {
   // Skip the Studio, API routes, Next internals and files with an extension.
-  matcher: ["/((?!api|studio|_next|_vercel|.*\..*).*)"],
+  matcher: ["/((?!api|studio|_next|_vercel|.*\\..*).*)"],
 };
