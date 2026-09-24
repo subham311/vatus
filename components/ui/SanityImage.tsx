@@ -58,9 +58,9 @@ export function SanityImage({
     );
   }
 
-  let builder = urlFor(image).width(MAX_WIDTH);
-  if (aspect) builder = builder.height(Math.round(MAX_WIDTH / aspect)).fit("crop");
-  const src = builder.url();
+  // The editor's crop is applied by the URL builder. The box ratio is set in
+  // CSS so it can change per breakpoint; object-position follows the hotspot.
+  const src = urlFor(image).width(MAX_WIDTH).url();
 
   const hx = image.hotspot?.x ?? 0.5;
   const hy = image.hotspot?.y ?? 0.5;

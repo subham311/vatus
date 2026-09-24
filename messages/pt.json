@@ -36,7 +36,12 @@
   },
   "gallery": {
     "label": "Galeria do projeto",
-    "open": "Abrir imagem {index} de {total}: {alt}"
+    "open": "Abrir imagem {index} de {total}: {alt}",
+    "previous": "Imagem anterior",
+    "next": "Próxima imagem",
+    "close": "Fechar galeria",
+    "slideOf": "{index} de {total}",
+    "lightbox": "Visualizador de imagens"
   },
   "floorPlan": {
     "viewFullScreen": "Ver em tela cheia",
