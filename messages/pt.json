@@ -17,7 +17,8 @@
     "rights": "Todos os direitos reservados.",
     "backToHome": "Voltar ao início",
     "comingSoon": "Esta página está em preparação.",
-    "opensInNewTab": "(abre em nova aba)"
+    "opensInNewTab": "(abre em nova aba)",
+    "notFound": "Não encontramos esta página."
   },
   "residence": {
     "area": "Aprox. {area} m²",
