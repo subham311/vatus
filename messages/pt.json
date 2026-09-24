@@ -1,0 +1,91 @@
+{
+  "common": {
+    "skipToContent": "Ir para o conteúdo",
+    "primaryNav": "Navegação principal",
+    "footerNav": "Navegação do rodapé",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Fechar menu",
+    "languageSwitcher": "Escolher idioma",
+    "currentLanguage": "Idioma atual",
+    "homeLink": "VATUS, voltar ao topo",
+    "imageToCome": "Imagem em breve",
+    "whatsappLabel": "Falar com a VATUS pelo WhatsApp (abre em nova aba)",
+    "instagram": "Instagram",
+    "email": "E-mail",
+    "whatsapp": "WhatsApp",
+    "privacyPolicy": "Política de privacidade",
+    "rights": "Todos os direitos reservados.",
+    "backToHome": "Voltar ao início",
+    "comingSoon": "Esta página está em preparação.",
+    "opensInNewTab": "(abre em nova aba)"
+  },
+  "residence": {
+    "area": "Aprox. {area} m²",
+    "bedrooms": "{count, plural, one {# quarto} other {# quartos}}",
+    "bathrooms": "{count, plural, one {# banheiro} other {# banheiros}}",
+    "bedroomsTitle": "{count, plural, one {# Quarto} other {# Quartos}}",
+    "bathroomsTitle": "{count, plural, one {# Banheiro} other {# Banheiros}}",
+    "facts": "Dados da residência",
+    "status": {
+      "under-construction": "Em construção",
+      "available": "Disponível",
+      "reserved": "Reservada",
+      "sold": "Vendida"
+    }
+  },
+  "gallery": {
+    "label": "Galeria do projeto",
+    "open": "Abrir imagem {index} de {total}: {alt}"
+  },
+  "floorPlan": {
+    "viewFullScreen": "Ver em tela cheia",
+    "marker": "Nota da planta {number}: {title}",
+    "notes": "Notas da planta",
+    "zoomIn": "Aproximar",
+    "zoomOut": "Afastar",
+    "resetZoom": "Redefinir zoom",
+    "close": "Fechar planta em tela cheia",
+    "dialogLabel": "Planta baixa em tela cheia",
+    "zoomHint": "Use o gesto de pinça ou os botões para aproximar. Arraste para mover.",
+    "noPlan": "Desenho da planta em breve"
+  },
+  "journal": {
+    "readingTime": "{minutes} min de leitura",
+    "empty": "Os primeiros artigos estão sendo escritos."
+  },
+  "contact": {
+    "formLabel": "Formulário de contato",
+    "name": "Nome",
+    "email": "E-mail",
+    "phone": "Telefone / WhatsApp",
+    "interest": "Tenho interesse em",
+    "interestPlaceholder": "Selecione",
+    "message": "Mensagem",
+    "optional": "opcional",
+    "submit": "Enviar mensagem",
+    "sending": "Enviando…",
+    "successTitle": "Obrigado.",
+    "successBody": "Recebemos a sua mensagem. Responderemos pessoalmente, normalmente em até dois dias úteis.",
+    "sendAnother": "Enviar outra mensagem",
+    "failureTitle": "Não foi possível enviar a sua mensagem.",
+    "failureBody": "Tente novamente em instantes ou escreva para nós diretamente por e-mail ou WhatsApp.",
+    "rateLimited": "Você enviou várias mensagens em pouco tempo. Aguarde alguns minutos e tente novamente.",
+    "spamCheck": "Conclua a verificação abaixo.",
+    "honeypot": "Deixe este campo em branco",
+    "errors": {
+      "nameRequired": "Informe o seu nome.",
+      "emailInvalid": "Informe um e-mail válido.",
+      "phoneInvalid": "Informe um telefone válido ou deixe o campo em branco.",
+      "interestRequired": "Selecione o seu interesse.",
+      "messageTooLong": "A mensagem deve ter no máximo 2.000 caracteres.",
+      "summary": "Verifique os campos destacados."
+    },
+    "interests": {
+      "available-residence": "Residência disponível",
+      "future-developments": "Futuros empreendimentos VATUS",
+      "architecture": "Arquitetura",
+      "residential-construction": "Construção residencial",
+      "general": "Assunto geral"
+    }
+  }
+}

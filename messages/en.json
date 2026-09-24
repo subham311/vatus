@@ -1,0 +1,91 @@
+{
+  "common": {
+    "skipToContent": "Skip to content",
+    "primaryNav": "Primary navigation",
+    "footerNav": "Footer navigation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "languageSwitcher": "Choose language",
+    "currentLanguage": "Current language",
+    "homeLink": "VATUS, back to top",
+    "imageToCome": "Image to come",
+    "whatsappLabel": "Contact VATUS on WhatsApp (opens in a new tab)",
+    "instagram": "Instagram",
+    "email": "Email",
+    "whatsapp": "WhatsApp",
+    "privacyPolicy": "Privacy policy",
+    "rights": "All rights reserved.",
+    "backToHome": "Back to home",
+    "comingSoon": "This page is being prepared.",
+    "opensInNewTab": "(opens in a new tab)"
+  },
+  "residence": {
+    "area": "Approx. {area} m²",
+    "bedrooms": "{count, plural, one {# bedroom} other {# bedrooms}}",
+    "bathrooms": "{count, plural, one {# bathroom} other {# bathrooms}}",
+    "bedroomsTitle": "{count, plural, one {# Bedroom} other {# Bedrooms}}",
+    "bathroomsTitle": "{count, plural, one {# Bathroom} other {# Bathrooms}}",
+    "facts": "Residence facts",
+    "status": {
+      "under-construction": "Under Construction",
+      "available": "Available",
+      "reserved": "Reserved",
+      "sold": "Sold"
+    }
+  },
+  "gallery": {
+    "label": "Project gallery",
+    "open": "Open image {index} of {total}: {alt}"
+  },
+  "floorPlan": {
+    "viewFullScreen": "View full screen",
+    "marker": "Plan note {number}: {title}",
+    "notes": "Plan notes",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "resetZoom": "Reset zoom",
+    "close": "Close full-screen plan",
+    "dialogLabel": "Floor plan, full screen",
+    "zoomHint": "Pinch or use the buttons to zoom. Drag to move.",
+    "noPlan": "Floor plan drawing to come"
+  },
+  "journal": {
+    "readingTime": "{minutes} min read",
+    "empty": "The first articles are being written."
+  },
+  "contact": {
+    "formLabel": "Enquiry form",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Telephone / WhatsApp",
+    "interest": "I'm interested in",
+    "interestPlaceholder": "Please choose",
+    "message": "Message",
+    "optional": "optional",
+    "submit": "Send enquiry",
+    "sending": "Sending…",
+    "successTitle": "Thank you.",
+    "successBody": "Your enquiry has been received. We will reply personally, usually within two working days.",
+    "sendAnother": "Send another enquiry",
+    "failureTitle": "Your enquiry could not be sent.",
+    "failureBody": "Please try again in a moment, or write to us directly by email or WhatsApp.",
+    "rateLimited": "You have sent several enquiries in a short time. Please wait a few minutes and try again.",
+    "spamCheck": "Please complete the verification below.",
+    "honeypot": "Leave this field empty",
+    "errors": {
+      "nameRequired": "Please enter your name.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneInvalid": "Please enter a valid telephone number, or leave it empty.",
+      "interestRequired": "Please choose what you are interested in.",
+      "messageTooLong": "Please keep your message under 2,000 characters.",
+      "summary": "Please check the highlighted fields."
+    },
+    "interests": {
+      "available-residence": "Available residence",
+      "future-developments": "Future VATUS developments",
+      "architecture": "Architecture",
+      "residential-construction": "Residential construction",
+      "general": "General enquiry"
+    }
+  }
+}

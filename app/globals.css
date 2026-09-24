@@ -1,26 +1,148 @@
 @import "tailwindcss";
 
+/* ---------- Design tokens ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f5f3ee;
+  --surface: #ffffff;
+  --ink: #1e1e1b;
+  --muted: #5e5d57;
+  --line: #d9d5cc;
+  --olive: #3b3c2f;
+  --olive-soft: #6b6d55;
+  --accent-bronze: #9a7b55;
+  --charcoal: #1e1e1b;
+  --on-dark: #f5f3ee;
+  --on-dark-muted: #c9c5bb;
+  --line-dark: rgba(245, 243, 238, 0.22);
+  --placeholder: #e7e3da;
+
+  /* Swap the display face by changing this one token. */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-manrope), "Manrope", system-ui, sans-serif;
+
+  --header-h: 4.5rem;
+  --content-max: 80rem;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-y: clamp(5rem, 11vw, 10rem);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-olive: var(--olive);
+  --color-olive-soft: var(--olive-soft);
+  --color-bronze: var(--accent-bronze);
+  --color-charcoal: var(--charcoal);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --color-line-dark: var(--line-dark);
+  --color-placeholder: var(--placeholder);
+
+  --font-display: var(--font-display);
+  --font-sans: var(--font-body);
+
+  --text-display: clamp(2.5rem, 6vw, 7rem);
+  --text-display--line-height: 1.05;
+  --text-section: clamp(2rem, 3.5vw, 3.25rem);
+  --text-section--line-height: 1.1;
+  --text-statement: clamp(2.25rem, 5.2vw, 5.5rem);
+  --text-statement--line-height: 1.08;
+  --text-lead: clamp(1.0625rem, 1.3vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+
+  --tracking-eyebrow: 0.2em;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 1.0625rem;
+    }
+  }
+
+  /* Anchor targets clear the sticky header. */
+  [id] {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-bronze);
+    outline-offset: 3px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--on-dark);
+  }
+
+  ::selection {
+    background: var(--olive);
+    color: var(--on-dark);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- Utilities ---------- */
+@utility container-site {
+  width: 100%;
+  max-width: calc(var(--content-max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+@utility eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+@utility hairline {
+  border-color: var(--line);
 }
