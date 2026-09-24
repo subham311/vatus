@@ -1,13 +1,20 @@
 import { setRequestLocale } from "next-intl/server";
+import { AvailableResidences } from "@/components/sections/AvailableResidences";
 import { BrandStatement } from "@/components/sections/BrandStatement";
+import { ConstructionQuality } from "@/components/sections/ConstructionQuality";
+import { Contact } from "@/components/sections/Contact";
 import { DesignPrinciples } from "@/components/sections/DesignPrinciples";
 import { FloorPlan } from "@/components/sections/FloorPlan";
 import { Hero } from "@/components/sections/Hero";
+import { IntelligentResources } from "@/components/sections/IntelligentResources";
+import { InternationalExperience } from "@/components/sections/InternationalExperience";
+import { JournalPreview } from "@/components/sections/JournalPreview";
 import { Manifesto } from "@/components/sections/Manifesto";
+import { Materials } from "@/components/sections/Materials";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { SelectedResidence } from "@/components/sections/SelectedResidence";
 import type { Locale } from "@/i18n/routing";
-import { getHome } from "@/sanity/lib/data";
+import { getHome, getSettings } from "@/sanity/lib/data";
 
 /** A section renders unless an editor has switched it off. */
 const on = <T extends { enabled?: boolean | null } | null | undefined>(s: T): s is NonNullable<T> =>
@@ -16,7 +23,7 @@ const on = <T extends { enabled?: boolean | null } | null | undefined>(s: T): s 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
-  const { data: home } = await getHome(locale);
+  const [{ data: home }, { data: settings }] = await Promise.all([getHome(locale), getSettings(locale)]);
 
   if (!home) {
     return (
@@ -44,6 +51,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       ) : null}
       {showFloorPlan && home.floorPlan ? <FloorPlan data={home.floorPlan} plan={project?.plan ?? null} /> : null}
       {on(home.designPrinciples) ? <DesignPrinciples data={home.designPrinciples} /> : null}
+      {on(home.constructionQuality) ? <ConstructionQuality data={home.constructionQuality} /> : null}
+      {on(home.materials) ? <Materials data={home.materials} /> : null}
+      {on(home.intelligentResources) ? <IntelligentResources data={home.intelligentResources} /> : null}
+      {on(home.internationalExperience) ? <InternationalExperience data={home.internationalExperience} /> : null}
+      {on(home.availableResidences) ? (
+        <AvailableResidences data={home.availableResidences} financingDisclaimer={settings?.financingDisclaimer ?? null} />
+      ) : null}
+      {on(home.journalPreview) ? <JournalPreview data={home.journalPreview} articles={home.journalArticles ?? []} /> : null}
+      {on(home.contact) ? <Contact data={home.contact} settings={settings} /> : null}
     </main>
   );
 }
