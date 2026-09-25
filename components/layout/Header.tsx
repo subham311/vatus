@@ -1,37 +1,71 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { urlFor } from "@/sanity/lib/image";
+import { cn } from "@/lib/cn";
 import { resolveCta, type ResolvedLink } from "@/lib/links";
 import type { Settings } from "@/sanity/lib/data";
 import { HeaderNav } from "./HeaderNav";
 
+type Logo = Settings["logoDark"];
+
+const hasAsset = (logo: Logo | undefined): logo is NonNullable<Logo> => Boolean(logo?.asset?._ref);
+
+/** Intrinsic size hints so the browser reserves the right width before the SVG loads. */
+function dims(logo: NonNullable<Logo>, height: number) {
+  return { width: Math.round(height * (logo.aspectRatio ?? 4)), height };
+}
+
+/**
+ * Brand logo from Site settings. The long logo shows from `lg` up (where the
+ * full navigation appears), the short one below it; each falls back to the
+ * other when only one is uploaded, and to the typeset name when neither is.
+ * SVGs are served as-is from the Sanity CDN, so size comes from CSS height.
+ */
 export function Wordmark({
   settings,
   tone = "dark",
+  variant = "responsive",
   className,
+  imgClassName = "h-11 max-w-[13rem] lg:h-10 lg:max-w-[16rem]",
 }: {
   settings: Settings | null;
+  /** "dark" artwork for light backgrounds, "light" artwork for dark ones. */
   tone?: "dark" | "light";
+  variant?: "responsive" | "long";
+  /** Classes for the typeset fallback. */
   className?: string;
+  /** Classes for the logo image; set the height here. */
+  imgClassName?: string;
 }) {
-  const logo = tone === "dark" ? settings?.logoDark : settings?.logoLight;
-  if (logo?.asset?._ref) {
+  const long = tone === "dark" ? settings?.logoDark : settings?.logoLight;
+  const short = tone === "dark" ? settings?.logoDarkShort : settings?.logoLightShort;
+  const desktop = hasAsset(long) ? long : hasAsset(short) ? short : null;
+  const mobile = variant === "long" ? desktop : hasAsset(short) ? short : desktop;
+
+  if (!desktop || !mobile) {
     return (
-      // SVG logos are served as-is from the Sanity CDN.
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={urlFor(logo).url()}
-        alt={logo.alt || settings?.siteName || "VATUS"}
-        className={className ?? "h-6 w-auto"}
-        width={120}
-        height={24}
-      />
+      <span className={className ?? "font-display text-[1.75rem] leading-none tracking-[0.08em]"}>
+        {settings?.siteName || "VATUS"}
+      </span>
     );
   }
+
+  const img = (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={urlFor(mobile).url()}
+      alt={mobile.alt || settings?.siteName || "VATUS"}
+      {...dims(mobile, 44)}
+      className={cn("block w-auto object-contain object-left", imgClassName)}
+    />
+  );
+  if (mobile === desktop) return img;
+
   return (
-    <span className={className ?? "font-display text-[1.75rem] leading-none tracking-[0.08em]"}>
-      {settings?.siteName || "VATUS"}
-    </span>
+    <picture>
+      <source media="(min-width: 1024px)" srcSet={urlFor(desktop).url()} {...dims(desktop, 40)} />
+      {img}
+    </picture>
   );
 }
 

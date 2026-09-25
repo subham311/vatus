@@ -1,6 +1,6 @@
 import { HomeIcon } from "@sanity/icons/Home";
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { isUniqueInLanguage, languageField } from "../shared";
+import { isUniqueInLanguage, languageField, imageSize } from "../shared";
 
 export const PROJECT_STATUSES = [
   { title: "Under construction", value: "under-construction" },
@@ -80,7 +80,13 @@ export const project = defineType({
       title: "Architectural concept",
       type: "array",
       group: "content",
-      of: [defineArrayMember({ type: "block" }), defineArrayMember({ type: "imageWithAlt" })],
+      of: [
+        defineArrayMember({ type: "block" }),
+        defineArrayMember({
+          type: "imageWithAlt",
+          validation: imageSize({ width: 1600, height: 1200, minWidth: 1200 }).validation,
+        }),
+      ],
     }),
     defineField({
       name: "highlights",
@@ -94,14 +100,25 @@ export const project = defineType({
       title: "Main exterior image",
       type: "imageWithAlt",
       group: "media",
+      ...imageSize({
+        width: 2400,
+        height: 1400,
+        minWidth: 1920,
+        note: "Very wide on desktop (21:10) and 4:3 on mobile, so keep the house near the centre and set the hotspot on it.",
+      }),
     }),
     defineField({
       name: "gallery",
       type: "array",
       group: "media",
       description:
-        "4–6 images in story order: façade, living/kitchen, bedroom, bathroom, outdoor/rear, construction detail.",
-      of: [defineArrayMember({ type: "imageWithAlt" })],
+        "4–6 images in story order: façade, living/kitchen, bedroom, bathroom, outdoor/rear, construction detail. Recommended 2400 × 1600 px each, at least 1600 px wide. Use Crop and Hotspot to choose what stays in the frame.",
+      of: [
+        defineArrayMember({
+          type: "imageWithAlt",
+          validation: imageSize({ width: 2400, height: 1600, minWidth: 1600 }).validation,
+        }),
+      ],
       validation: (R) => R.max(10),
     }),
     defineField({

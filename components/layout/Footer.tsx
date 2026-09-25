@@ -19,7 +19,12 @@ export async function Footer({ settings }: { settings: Settings | null }) {
     <footer className="border-t border-line bg-bg">
       <div className="container-site grid gap-12 py-16 md:grid-cols-[1.2fr_1fr] md:py-20 lg:grid-cols-[1.4fr_1fr_auto]">
         <div className="flex flex-col gap-4">
-          <Wordmark settings={settings} className="font-display text-[2.25rem] leading-none tracking-[0.08em]" />
+          <Wordmark
+            settings={settings}
+            variant="long"
+            className="font-display text-[2.25rem] leading-none tracking-[0.08em]"
+            imgClassName="h-14 max-w-[18rem] self-start md:h-16"
+          />
           {settings?.descriptor ? (
             <p className="eyebrow text-[0.6875rem] text-muted">{settings.descriptor}</p>
           ) : null}

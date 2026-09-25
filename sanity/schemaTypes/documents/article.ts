@@ -1,6 +1,6 @@
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { defineArrayMember, defineField, defineType } from "sanity";
-import { isUniqueInLanguage, languageField } from "../shared";
+import { isUniqueInLanguage, languageField, imageSize } from "../shared";
 
 export const article = defineType({
   name: "article",
@@ -35,7 +35,12 @@ export const article = defineType({
       group: "content",
       validation: (R) => R.max(280),
     }),
-    defineField({ name: "heroImage", type: "imageWithAlt", group: "content" }),
+    defineField({
+      name: "heroImage",
+      type: "imageWithAlt",
+      group: "content",
+      ...imageSize({ width: 2400, height: 1350, minWidth: 1600, note: "Shown at 16:9 on the article and 4:3 on journal cards." }),
+    }),
     defineField({
       name: "body",
       type: "array",
@@ -51,7 +56,10 @@ export const article = defineType({
             { title: "Quote", value: "blockquote" },
           ],
         }),
-        defineArrayMember({ type: "imageWithAlt" }),
+        defineArrayMember({
+          type: "imageWithAlt",
+          validation: imageSize({ width: 1600, height: 1200, minWidth: 1200 }).validation,
+        }),
         defineArrayMember({ type: "diagram" }),
         defineArrayMember({ type: "pullQuote" }),
       ],
@@ -88,6 +96,7 @@ export const article = defineType({
       title: "Social share image",
       type: "imageWithAlt",
       group: "seo",
+      ...imageSize({ width: 1200, height: 630, minWidth: 1200, note: "Overrides the hero image when shared. Cropped to 1200 × 630." }),
     }),
   ],
   orderings: [

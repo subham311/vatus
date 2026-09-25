@@ -1,4 +1,5 @@
 import { defineField, defineType } from "sanity";
+import { imageSize } from "../shared";
 
 export const timelineItem = defineType({
   name: "timelineItem",
@@ -63,8 +64,11 @@ export const qualityItem = defineType({
     defineField({
       name: "image",
       type: "imageWithAlt",
-      description:
-        "Real construction photography only. Items without an image appear in the text list only.",
+      ...imageSize({
+        width: 1000,
+        height: 1250,
+        note: "Real construction photography only. Items without an image appear in the text list only. Portrait, shown at 4:5.",
+      }),
     }),
   ],
   preview: { select: { title: "title", media: "image" } },
@@ -76,7 +80,11 @@ export const material = defineType({
   type: "object",
   fields: [
     defineField({ name: "title", type: "string", validation: (R) => R.required() }),
-    defineField({ name: "image", type: "imageWithAlt" }),
+    defineField({
+      name: "image",
+      type: "imageWithAlt",
+      ...imageSize({ width: 1000, height: 1250, note: "Portrait, shown at 4:5." }),
+    }),
   ],
   preview: { select: { title: "title", media: "image" } },
 });
@@ -123,7 +131,12 @@ export const annotatedPlan = defineType({
     defineField({
       name: "image",
       type: "imageWithAlt",
-      description: "A redrawn presentation plan, not a raw CAD sheet.",
+      ...imageSize({
+        width: 2400,
+        height: 1600,
+        minWidth: 1600,
+        note: "A redrawn presentation plan, not a raw CAD sheet. Shown whole (never cropped) and zoomable, so export it large with a plain background.",
+      }),
     }),
     defineField({
       name: "annotations",
@@ -167,7 +180,11 @@ export const diagram = defineType({
   title: "Diagram",
   type: "object",
   fields: [
-    defineField({ name: "image", type: "imageWithAlt", validation: (R) => R.required() }),
+    defineField({
+      name: "image",
+      type: "imageWithAlt",
+      ...imageSize({ width: 2000, height: 1250, minWidth: 1400, required: true, note: "Shown at its natural proportions." }),
+    }),
     defineField({ name: "wide", type: "boolean", initialValue: true }),
   ],
   preview: { select: { title: "image.alt", media: "image" } },

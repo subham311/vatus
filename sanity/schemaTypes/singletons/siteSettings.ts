@@ -2,11 +2,39 @@ import { CogIcon } from "@sanity/icons/Cog";
 import { defineArrayMember, defineField, defineType } from "sanity";
 import { languageField } from "../shared";
 
+const LOGO_HINT = {
+  long: "Desktop header and footer. Horizontal version.",
+  short: "Tablet and mobile header. Symbol or compact version.",
+};
+
+function logoField(name: string, title: string, size: "long" | "short", tone: "dark" | "light") {
+  return defineField({
+    name,
+    title,
+    type: "imageWithAlt",
+    group: "brand",
+    fieldset: "logos",
+    options: { accept: "image/svg+xml", hotspot: false },
+    description: `${LOGO_HINT[size]} ${
+      tone === "dark" ? "Dark artwork." : "White or light artwork."
+    } SVG only, with the canvas trimmed tight to the artwork — any empty space around the logo in the file makes it look small on the site.`,
+  });
+}
+
 export const siteSettings = defineType({
   name: "siteSettings",
   title: "Site settings",
   type: "document",
   icon: CogIcon,
+  fieldsets: [
+    {
+      name: "logos",
+      title: "Logos",
+      description:
+        "The long logo shows on desktop and in the footer, the short logo on tablet and mobile. Leave all empty to use the typeset VATUS wordmark.",
+      options: { columns: 2 },
+    },
+  ],
   groups: [
     { name: "brand", title: "Brand", default: true },
     { name: "navigation", title: "Navigation" },
@@ -29,21 +57,10 @@ export const siteSettings = defineType({
       group: "brand",
       initialValue: "Architecture • Development • Construction",
     }),
-    defineField({
-      name: "logoDark",
-      title: "Logo for light backgrounds (SVG)",
-      type: "imageWithAlt",
-      group: "brand",
-      options: { accept: "image/svg+xml" },
-      description: "Leave empty to use the typeset VATUS wordmark.",
-    }),
-    defineField({
-      name: "logoLight",
-      title: "Logo for dark backgrounds (SVG)",
-      type: "imageWithAlt",
-      group: "brand",
-      options: { accept: "image/svg+xml" },
-    }),
+    logoField("logoDark", "Long logo — for light backgrounds", "long", "dark"),
+    logoField("logoDarkShort", "Short logo — for light backgrounds", "short", "dark"),
+    logoField("logoLight", "Long logo — for dark backgrounds", "long", "light"),
+    logoField("logoLightShort", "Short logo — for dark backgrounds", "short", "light"),
     defineField({
       name: "navItems",
       title: "Navigation items",

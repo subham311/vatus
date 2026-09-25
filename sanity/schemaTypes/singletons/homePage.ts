@@ -5,7 +5,7 @@ import {
   defineType,
   type FieldDefinition,
 } from "sanity";
-import { languageField } from "../shared";
+import { languageField, imageSize } from "../shared";
 
 /**
  * Each homepage section is an object in its own Studio group with an
@@ -67,7 +67,12 @@ export const homePage = defineType({
       defineField({
         name: "image",
         type: "imageWithAlt",
-        description: "One exceptional landscape architectural image. No carousels.",
+        ...imageSize({
+          width: 2400,
+          height: 1600,
+          minWidth: 1920,
+          note: "One exceptional landscape architectural image. No carousels. Shown full screen, so keep the subject near the hotspot.",
+        }),
       }),
       defineField({ name: "locationTag", type: "string" }),
       defineField({ name: "primaryCta", title: "Primary button", type: "cta" }),
@@ -76,7 +81,12 @@ export const homePage = defineType({
     section("manifesto", "02 Manifesto", [
       heading(),
       defineField({ name: "body", type: "richText" }),
-      defineField({ name: "image", title: "Interior image", type: "imageWithAlt" }),
+      defineField({
+        name: "image",
+        title: "Interior image",
+        type: "imageWithAlt",
+        ...imageSize({ width: 2000, height: 1250, note: "Landscape, shown at 16:10." }),
+      }),
     ]),
     section("brandStatement", "03 Brand statement", [
       defineField({ name: "statement", type: "text", rows: 2 }),
@@ -150,6 +160,7 @@ export const homePage = defineType({
         name: "image",
         title: "Process or detail image",
         type: "imageWithAlt",
+        ...imageSize({ width: 1600, height: 1280, note: "Shown at 5:4." }),
       }),
     ]),
     section("internationalExperience", "11 International experience", [
