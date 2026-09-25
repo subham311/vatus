@@ -71,7 +71,7 @@ export async function AvailableResidences({
                     <h3 className="mt-6 font-display text-[clamp(1.875rem,2.8vw,2.5rem)] leading-tight">{p.name}</h3>
                     <p className="mt-3 text-[0.9375rem] text-muted">
                       {facts(p).map((f, i) => (
-                        <span key={f}>
+                        <span key={f} className="whitespace-nowrap">
                           {i > 0 ? <span aria-hidden="true"> • </span> : null}
                           {f}
                         </span>

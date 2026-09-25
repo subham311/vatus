@@ -1,4 +1,5 @@
-import { z } from "zod";
+// zod/mini keeps the client bundle small; the same schema runs on the server.
+import * as z from "zod/mini";
 
 /** Stable keys; labels come from Site settings (or the UI messages). */
 export const DEFAULT_INTERESTS = [
@@ -9,19 +10,24 @@ export const DEFAULT_INTERESTS = [
   "general",
 ] as const;
 
+const PHONE = /^[+()\d\s.-]{8,30}$/;
+
 /** Error values are message keys under `contact.errors`. */
 export const contactSchema = z.object({
-  name: z.string().trim().min(1, "nameRequired").max(120, "nameRequired"),
-  email: z.string().trim().max(200, "emailInvalid").pipe(z.email("emailInvalid")),
-  phone: z
-    .string()
-    .trim()
-    .max(30, "phoneInvalid")
-    .refine((v) => v === "" || /^[+()\d\s.-]{8,30}$/.test(v), "phoneInvalid")
-    .optional()
-    .default(""),
-  interest: z.string().trim().min(1, "interestRequired").max(60, "interestRequired"),
-  message: z.string().trim().max(2000, "messageTooLong").optional().default(""),
+  name: z.string().check(z.trim(), z.minLength(1, "nameRequired"), z.maxLength(120, "nameRequired")),
+  email: z.string().check(z.trim(), z.maxLength(200, "emailInvalid"), z.email("emailInvalid")),
+  phone: z._default(
+    z.optional(
+      z.string().check(
+        z.trim(),
+        z.maxLength(30, "phoneInvalid"),
+        z.refine((v) => v === "" || PHONE.test(v), "phoneInvalid"),
+      ),
+    ),
+    "",
+  ),
+  interest: z.string().check(z.trim(), z.minLength(1, "interestRequired"), z.maxLength(60, "interestRequired")),
+  message: z._default(z.optional(z.string().check(z.trim(), z.maxLength(2000, "messageTooLong"))), ""),
 });
 
 export type ContactInput = z.infer<typeof contactSchema>;
@@ -34,7 +40,7 @@ export type ContactState =
   | { status: "invalid"; errors: ContactErrors }
   | { status: "error"; reason: "rateLimited" | "spamCheck" | "failure" };
 
-export function toErrors(error: z.ZodError): ContactErrors {
+export function toErrors(error: { issues: ReadonlyArray<{ path: PropertyKey[]; message: string }> }): ContactErrors {
   const errors: ContactErrors = {};
   for (const issue of error.issues) {
     const field = issue.path[0] as ContactField | undefined;

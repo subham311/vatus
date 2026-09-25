@@ -96,15 +96,16 @@ export function HeaderNav({
       </nav>
 
       <div className="flex items-center gap-4 xl:gap-6">
-        <LocaleSwitcher className="hidden lg:flex" />
+        <div className="hidden lg:block">
+          <LocaleSwitcher />
+        </div>
         {cta ? (
-          <Link
-            href={cta.href}
-            className={buttonClasses("primary", "hidden min-h-10 px-5 py-2 text-sm md:inline-flex")}
-          >
-            <span>{cta.label}</span>
-            <Arrow />
-          </Link>
+          <div className="hidden md:block">
+            <Link href={cta.href} className={buttonClasses("primary", "min-h-10 !px-5 !py-2 text-sm")}>
+              <span>{cta.label}</span>
+              <Arrow />
+            </Link>
+          </div>
         ) : null}
         <MobileMenu items={items} cta={cta} activeAnchor={active} />
       </div>

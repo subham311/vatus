@@ -1,7 +1,7 @@
 "use client";
 
 import { Maximize2 } from "lucide-react";
-import { motion, useInView, useReducedMotion } from "motion/react";
+import { m, useInView, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
 import { useId, useRef, useState, type ReactNode } from "react";
 import { buttonClasses } from "@/components/ui/Button";
@@ -43,7 +43,8 @@ export function FloorPlanInteractive({
   const show = reduce || inView;
   const activeNote = notes.find((n) => n.number === active) ?? null;
 
-  const toggle = (n: number) => setActive((cur) => (cur === n ? null : n));
+  // Hover, focus and tap all select (a tap fires focus then click, so no toggling).
+  const select = (n: number) => setActive(n);
 
   return (
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-16">
@@ -53,14 +54,14 @@ export function FloorPlanInteractive({
           {notes.map((note, i) => {
             const isActive = active === note.number;
             return (
-              <motion.button
+              <m.button
                 key={note.key}
                 type="button"
                 data-reveal=""
                 aria-pressed={isActive}
                 aria-label={note.markerLabel}
                 aria-describedby={`${id}-note-${note.number}`}
-                onClick={() => toggle(note.number)}
+                onClick={() => select(note.number)}
                 onMouseEnter={() => setActive(note.number)}
                 onFocus={() => setActive(note.number)}
                 initial={reduce ? false : { opacity: 0, scale: 0.6 }}
@@ -77,7 +78,7 @@ export function FloorPlanInteractive({
                 >
                   {note.number}
                 </span>
-              </motion.button>
+              </m.button>
             );
           })}
         </div>
@@ -116,7 +117,7 @@ export function FloorPlanInteractive({
               <button
                 type="button"
                 aria-pressed={isActive}
-                onClick={() => toggle(note.number)}
+                onClick={() => select(note.number)}
                 onMouseEnter={() => setActive(note.number)}
                 onFocus={() => setActive(note.number)}
                 className={cn(

@@ -8,8 +8,8 @@ import "../globals.css";
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
+  weight: ["400"],
+  style: ["normal"],
   variable: "--font-cormorant",
   display: "swap",
 });
@@ -48,7 +48,12 @@ export default async function LocaleLayout({
     <html
       lang={locale === "pt" ? "pt-BR" : "en"}
       className={`${cormorant.variable} ${manrope.variable}`}
+      // The inline script below adds the "js" class before hydration.
+      suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+      </head>
       <body>
         <a
           href="#main"

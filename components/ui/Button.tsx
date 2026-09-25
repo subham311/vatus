@@ -5,16 +5,16 @@ import { cn } from "@/lib/cn";
 export type ButtonVariant = "primary" | "outline" | "outline-light" | "text";
 
 const base =
-  "group inline-flex min-h-11 items-center justify-center gap-3 px-6 py-3 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-3";
+  "group inline-flex min-h-11 items-center justify-center gap-3 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-3";
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-olive text-on-dark hover:bg-ink focus-visible:outline-bronze",
+    "bg-olive px-6 py-3 text-on-dark hover:bg-ink focus-visible:outline-bronze",
   outline:
-    "border border-ink/70 text-ink hover:bg-ink hover:text-on-dark",
+    "border border-ink/70 px-6 py-3 text-ink hover:bg-ink hover:text-on-dark",
   "outline-light":
-    "border border-on-dark/85 text-on-dark hover:bg-on-dark hover:text-ink focus-visible:outline-on-dark",
-  text: "min-h-11 px-0 py-2 text-current underline-offset-[6px] hover:underline",
+    "border border-on-dark/85 px-6 py-3 text-on-dark hover:bg-on-dark hover:text-ink focus-visible:outline-on-dark",
+  text: "py-2 text-current underline-offset-[6px] hover:underline",
 };
 
 export function Arrow({ className }: { className?: string }) {

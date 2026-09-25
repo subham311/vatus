@@ -43,7 +43,7 @@ export async function Header({ settings }: { settings: Settings | null }) {
   const cta = resolveCta(settings?.headerCta);
 
   return (
-    <header className="sticky top-0 z-50 h-[var(--header-h)] border-b border-line bg-bg/95 backdrop-blur-sm supports-[backdrop-filter]:bg-bg/85">
+    <header className="sticky top-0 z-50 h-[var(--header-h)] border-b border-line bg-bg">
       <div className="container-site flex h-full items-center justify-between gap-6">
         <Link href="/" className="flex min-h-11 items-center gap-5" aria-label={t("homeLink")}>
           <Wordmark settings={settings} />

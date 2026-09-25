@@ -1,20 +1,14 @@
-"use client";
+import type { ReactNode } from "react";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef, type ReactNode } from "react";
-
-/** Very subtle parallax: the image drifts at most 6% while the hero scrolls away. */
+/**
+ * Very subtle parallax: the image drifts at most 6% while the hero scrolls
+ * away. Implemented as a CSS scroll-driven animation (no JavaScript); browsers
+ * without support, and visitors who prefer reduced motion, see a still image.
+ */
 export function HeroParallax({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "6%"]);
-
   return (
-    <div ref={ref} className="absolute inset-0 overflow-hidden">
-      <motion.div className="absolute -inset-y-[6%] inset-x-0" style={reduce ? undefined : { y }}>
-        {children}
-      </motion.div>
+    <div className="absolute inset-0 overflow-hidden">
+      <div className="hero-parallax absolute -inset-y-[6%] inset-x-0">{children}</div>
     </div>
   );
 }

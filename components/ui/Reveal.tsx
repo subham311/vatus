@@ -1,7 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -12,42 +11,40 @@ type RevealProps = {
   as?: "div" | "li" | "figure";
 };
 
-export function Reveal({
-  children,
-  className,
-  delay = 0,
-  variant = "fade",
-  as = "div",
-}: RevealProps) {
-  const reduce = useReducedMotion();
-  const Tag = motion[as];
+/**
+ * Reveals content once when it scrolls into view. The motion itself is pure
+ * CSS (see globals.css); content is only hidden when JavaScript is running
+ * (`html.js`) and the visitor has not asked for reduced motion.
+ */
+export function Reveal({ children, className, delay = 0, variant = "fade", as = "div" }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
 
-  if (reduce) {
-    const Plain = as;
-    return <Plain className={className}>{children}</Plain>;
-  }
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShown(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
-  const hidden =
-    variant === "image"
-      ? { opacity: 0, clipPath: "inset(6% 0% 6% 0%)" }
-      : { opacity: 0, y: 16 };
-  const shown =
-    variant === "image"
-      ? { opacity: 1, clipPath: "inset(0% 0% 0% 0%)" }
-      : { opacity: 1, y: 0 };
-
+  // The three tags share the same props; typing them as div keeps the ref simple.
+  const Tag = as as "div";
   return (
     <Tag
-      data-reveal=""
+      ref={ref}
       className={className}
-      initial={hidden}
-      whileInView={shown}
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-      transition={{
-        duration: variant === "image" ? 1.4 : 0.9,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
+      data-reveal={variant}
+      data-shown={shown ? "" : undefined}
+      style={delay ? { transitionDelay: `${delay}s` } : undefined}
     >
       {children}
     </Tag>

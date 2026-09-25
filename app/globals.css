@@ -141,8 +141,51 @@
   font-family: var(--font-display);
   font-weight: 400;
   letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums;
 }
 
 @utility hairline {
   border-color: var(--line);
+}
+
+/* ---------- Motion (CSS only; everything respects reduced motion) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal="fade"]:not([data-shown]) {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  html.js [data-reveal="image"]:not([data-shown]) {
+    opacity: 0;
+    clip-path: inset(6% 0% 6% 0%);
+  }
+
+  [data-reveal="fade"] {
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-reveal="image"] {
+    transition:
+      opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+      clip-path 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .hero-parallax {
+      animation: hero-drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(6%);
+  }
 }

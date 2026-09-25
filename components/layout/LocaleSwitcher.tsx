@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { Link, usePathname } from "@/i18n/navigation";
+import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/cn";
 import { useAlternates } from "./Alternates";
@@ -33,9 +33,9 @@ export function LocaleSwitcher({
                   |
                 </span>
               ) : null}
-              <Link
-                href={href}
-                locale={locale}
+              {/* A full document load: the root layout, <html lang> and router cache all change. */}
+              <a
+                href={getPathname({ href, locale })}
                 hrefLang={locale === "pt" ? "pt-BR" : "en"}
                 lang={locale === "pt" ? "pt-BR" : "en"}
                 aria-current={active ? "true" : undefined}
@@ -48,7 +48,7 @@ export function LocaleSwitcher({
               >
                 {active ? <span className="sr-only">{t("currentLanguage")}: </span> : null}
                 {locale.toUpperCase()}
-              </Link>
+              </a>
             </li>
           );
         })}
