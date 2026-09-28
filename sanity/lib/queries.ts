@@ -133,6 +133,48 @@ export const HOME_QUERY = defineQuery(`
   }
 `);
 
+export const ABOUT_QUERY = defineQuery(`
+  *[_type == "aboutPage" && language == $language][0]{
+    _id,
+    _type,
+    eyebrow,
+    heading,
+    subheading,
+    portrait${IMAGE},
+    founderName,
+    founderRole,
+    intro,
+    chapters[]{ _key, country, period, body, images[]${IMAGE} },
+    credentialsHeading,
+    credentials[]{ _key, title, issuer, year },
+    philosophyEyebrow,
+    philosophyHeading,
+    beliefs,
+    philosophyClosing,
+    closingStatement,
+    closingSupporting,
+    primaryCta${CTA},
+    secondaryCta${CTA},
+    seo{ title, description, noIndex, shareImage${IMAGE} }
+  }
+`);
+
+export const JOURNAL_PAGE_QUERY = defineQuery(`
+  *[_type == "journalPage" && language == $language][0]{
+    _id,
+    _type,
+    eyebrow,
+    heading,
+    intro,
+    heroImage${IMAGE},
+    featuredLabel,
+    "featuredArticle": featuredArticle->${ARTICLE_CARD},
+    closingStatement,
+    closingCta${CTA},
+    seo{ title, description, noIndex, shareImage${IMAGE} }
+  }
+`);
+
 export const PROJECT_QUERY = defineQuery(`
   *[_type == "project" && language == $language && slug.current == $slug][0]{
     ...${PROJECT_CARD},

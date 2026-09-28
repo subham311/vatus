@@ -1,4 +1,5 @@
 import { CogIcon } from "@sanity/icons/Cog";
+import { DocumentsIcon } from "@sanity/icons/Documents";
 import { DocumentTextIcon } from "@sanity/icons/DocumentText";
 import { EnvelopeIcon } from "@sanity/icons/Envelope";
 import { HomeIcon } from "@sanity/icons/Home";
@@ -16,7 +17,7 @@ import { supportedLanguages } from "./languages";
 function singleton(
   S: StructureBuilder,
   getClient: Parameters<StructureResolver>[1]["getClient"],
-  type: "siteSettings" | "homePage",
+  type: "siteSettings" | "homePage" | "aboutPage" | "journalPage",
   title: string,
   icon: typeof HomeIcon,
 ) {
@@ -89,6 +90,8 @@ export const structure: StructureResolver = (S, { getClient }) =>
     .title("VATUS")
     .items([
       singleton(S, getClient, "homePage", "Homepage", HomeIcon),
+      singleton(S, getClient, "aboutPage", "About page", UserIcon),
+      singleton(S, getClient, "journalPage", "Journal page", DocumentsIcon),
       singleton(S, getClient, "siteSettings", "Site settings", CogIcon),
       S.divider(),
       byLanguage(S, "project", "Projects", HomeIcon),

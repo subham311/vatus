@@ -297,12 +297,123 @@ const homePage = {
   },
 };
 
+// Copy from the brief (section 6). Credentials stay empty until verified.
+const aboutPage = {
+  _id: "aboutPage-en",
+  _type: "aboutPage",
+  language,
+  eyebrow: "About VATUS",
+  heading: "A life shaped by architecture and construction.",
+  subheading: "From the United States to the United Kingdom. Now building a new chapter in Brazil.",
+  founderRole: "Founder",
+  intro: [
+    block("My relationship with construction began in the United States in 1999."),
+    block(
+      "Working around buildings and construction gave me an understanding that has remained fundamental throughout my career: architecture does not end with a drawing. A successful building requires the relationship between design and construction to work from the beginning.",
+    ),
+    block(
+      "Over the following decades, my experience moved from the practical side of building towards architecture, residential design and development. That journey took me from the United States to London and, eventually, back to Brazil.",
+    ),
+  ],
+  chapters: [
+    {
+      _key: key(),
+      _type: "chapter",
+      country: "United States",
+      period: "1999–2008",
+      body: [
+        block(
+          "My early professional experience was developed in the United States, where I gained direct exposure to construction and the practical realities of building.",
+        ),
+        block(
+          "Those years created a lasting respect for execution, sequencing, materials and the relationship between what is drawn and what is actually constructed.",
+        ),
+      ],
+    },
+    {
+      _key: key(),
+      _type: "chapter",
+      country: "United Kingdom",
+      period: "2008–2026",
+      body: [
+        block(
+          "Moving to London opened the next chapter of my career. My work developed increasingly towards architecture and residential projects, including refurbishment, extensions, planning, technical design and the coordination of construction.",
+        ),
+        block(
+          "Working within the UK built environment strengthened my approach to regulation, detailing, building performance and the responsibility architects have for the way people experience space.",
+        ),
+      ],
+    },
+    {
+      _key: key(),
+      _type: "chapter",
+      country: "Brazil",
+      period: "A new chapter",
+      body: [
+        block(
+          "VATUS brings these experiences together. The objective is not to import an American or British architectural style into Brazil. Brazil has its own climate, materials, culture and way of living.",
+        ),
+        block(
+          "Instead, VATUS applies principles developed through decades of international experience: thoughtful planning; efficient use of space; attention to detail; respect for building performance; appropriate material selection; and careful execution.",
+        ),
+        block(
+          "The result should feel Brazilian, but benefit from a much broader architectural and construction perspective.",
+        ),
+      ],
+    },
+  ],
+  credentialsHeading: "Qualifications & memberships",
+  philosophyEyebrow: "Founder philosophy",
+  philosophyHeading: "What I believe.",
+  beliefs: [
+    "I believe architecture should improve ordinary life.",
+    "A window should be where it is for a reason.",
+    "A room should work with furniture inside it.",
+    "Natural light should be considered before artificial light.",
+    "Materials should be chosen for more than appearance.",
+    "Comfort should include temperature, sound, privacy and movement.",
+    "And the parts of a building that cannot be seen after completion deserve just as much attention as those that can.",
+  ],
+  philosophyClosing: "These ideas form the foundation of VATUS.",
+  closingStatement: "Different countries. Different building cultures. One philosophy.",
+  closingSupporting: "Design carefully. Build properly. Create homes that last.",
+  primaryCta: { ...anchor("Explore our work", "projects"), _key: undefined },
+  secondaryCta: { ...anchor("Get in touch", "contact"), _key: undefined },
+};
+
+// Copy from the brief (section 5). The featured article is left for editors.
+const journalPage = {
+  _id: "journalPage-en",
+  _type: "journalPage",
+  language,
+  eyebrow: "Journal",
+  heading: "Architecture, construction and better ways of living.",
+  intro:
+    "Thoughts, observations and practical insight from our work in residential architecture and construction.",
+  featuredLabel: "Featured",
+  closingStatement: "Interested in our work?",
+  closingCta: { ...anchor("Explore VATUS residences", "projects"), _key: undefined },
+};
+
 // Articles are created as drafts: they appear in the Studio and in preview,
 // and on the live site once an editor publishes them.
 const articles = [
   ["why-good-residential-architecture-starts-with-the-floor-plan", "Why good residential architecture starts with the floor plan"],
   ["natural-light-one-of-the-most-valuable-materials-in-architecture", "Natural light: one of the most valuable materials in architecture"],
   ["quality-you-cannot-see", "Quality you cannot see"],
+  // The rest of the launch list (brief section 5).
+  ["what-makes-a-residential-floor-plan-genuinely-good", "What makes a residential floor plan genuinely good?"],
+  [
+    "why-a-90-m2-house-can-feel-larger-than-a-poorly-designed-120-m2-house",
+    "Why a 90 m² house can feel larger than a poorly designed 120 m² house",
+  ],
+  ["designing-for-the-climate-of-goiania", "Designing for the climate of Goiânia"],
+  ["thermal-comfort-starts-before-air-conditioning", "Thermal comfort starts before air conditioning"],
+  ["how-we-evaluate-materials", "How we evaluate materials"],
+  [
+    "why-affordable-architecture-does-not-have-to-mean-inferior-architecture",
+    "Why affordable architecture does not have to mean inferior architecture",
+  ],
 ].map(([slug, title], i) => ({
   _id: `drafts.article-${slug}-en`,
   _type: "article",
@@ -322,6 +433,8 @@ async function main() {
     siteSettings,
     residence,
     homePage,
+    aboutPage,
+    journalPage,
     ...articles,
   ].map((d) => clean(d as Record<string, unknown>) as { _id: string; _type: string });
   const tx = client.transaction();

@@ -18,13 +18,17 @@ import {
 } from "./objects/misc";
 import { richText } from "./objects/richText";
 import { seo } from "./objects/seo";
+import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
+import { journalPage } from "./singletons/journalPage";
 import { siteSettings } from "./singletons/siteSettings";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   // Singletons
   siteSettings,
   homePage,
+  aboutPage,
+  journalPage,
   // Documents
   project,
   article,

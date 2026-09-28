@@ -63,7 +63,13 @@
     "empty": "Os primeiros artigos estão sendo escritos.",
     "related": "Artigos relacionados",
     "explore": "Conheça as residências VATUS",
-    "by": "Por {name}"
+    "by": "Por {name}",
+    "heading": "Arquitetura, construção e melhores formas de viver.",
+    "intro": "Reflexões, observações e conhecimento prático do nosso trabalho em arquitetura e construção residencial.",
+    "articles": "Artigos",
+    "featured": "Destaque",
+    "readArticle": "Ler o artigo",
+    "closing": "Interessado no nosso trabalho?"
   },
   "contact": {
     "formLabel": "Formulário de contato",
@@ -104,5 +110,9 @@
     "about": "Sobre a VATUS",
     "journal": "Journal",
     "privacy": "Política de privacidade"
+  },
+  "about": {
+    "story": "A trajetória",
+    "timeline": "Linha do tempo"
   }
 }

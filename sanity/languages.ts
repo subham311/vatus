@@ -8,10 +8,12 @@ export type LanguageId = (typeof supportedLanguages)[number]["id"];
 export const localizedTypes = [
   "siteSettings",
   "homePage",
+  "aboutPage",
+  "journalPage",
   "project",
   "article",
   "category",
   "author",
 ] as const;
 
-export const singletonTypes = ["siteSettings", "homePage"] as const;
+export const singletonTypes = ["siteSettings", "homePage", "aboutPage", "journalPage"] as const;
