@@ -1,10 +1,12 @@
 import { stegaClean } from "next-sanity";
 import { getTranslations } from "next-intl/server";
-import { Button } from "@/components/ui/Button";
+import { Arrow, Button } from "@/components/ui/Button";
 import { EnquireLink } from "@/components/ui/EnquireLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { SanityImage } from "@/components/ui/SanityImage";
-import { projectHref } from "@/lib/links";
+import { Link } from "@/i18n/navigation";
+import { PROJECTS_INDEX_PATH, projectHref, statusPill } from "@/lib/links";
+import { DEFAULT_RESIDENCE_CARDS } from "@/sanity/lib/data";
 import type { Home } from "@/sanity/lib/data";
 
 type Project = NonNullable<NonNullable<NonNullable<Home["availableResidences"]>["projects"]>[number]>;
@@ -14,13 +16,18 @@ const STATUSES = ["under-construction", "available", "reserved", "sold"] as cons
 export async function AvailableResidences({
   data,
   financingDisclaimer,
+  projectsIndex = false,
 }: {
   data: NonNullable<Home["availableResidences"]>;
   financingDisclaimer: string | null;
+  /** Whether the /projects index is on, which adds a “View all” link. */
+  projectsIndex?: boolean;
 }) {
   const t = await getTranslations("residence");
   const tc = await getTranslations("common");
-  const projects = (data.projects ?? []).filter((p): p is Project => Boolean(p));
+  const tp = await getTranslations("projects");
+  const limit = stegaClean(data.maxCards) ?? DEFAULT_RESIDENCE_CARDS;
+  const projects = (data.projects ?? []).filter((p): p is Project => Boolean(p)).slice(0, limit);
   if (!projects.length) return null;
 
   const facts = (p: Project) =>
@@ -34,18 +41,29 @@ export async function AvailableResidences({
   return (
     <section aria-labelledby="available-heading" className="section-y">
       <div className="container-site">
-        {data.eyebrow ? (
-          <h2 id="available-heading" className="eyebrow text-muted">
-            {data.eyebrow}
-          </h2>
-        ) : null}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
+          {data.eyebrow ? (
+            <h2 id="available-heading" className="eyebrow text-muted">
+              {data.eyebrow}
+            </h2>
+          ) : null}
+          {projectsIndex ? (
+            <Link
+              href={PROJECTS_INDEX_PATH}
+              className="group inline-flex min-h-11 items-center gap-3 text-[0.9375rem] tracking-[0.02em] hover:underline hover:decoration-1 hover:underline-offset-[6px]"
+            >
+              {data.viewAllLabel || tp("viewAll")}
+              <Arrow />
+            </Link>
+          ) : null}
+        </div>
         <ul className="mt-8 flex flex-col gap-8">
           {projects.map((p) => {
             const status = stegaClean(p.status);
             const statusLabel = STATUSES.includes(status as (typeof STATUSES)[number])
               ? t(`status.${status as (typeof STATUSES)[number]}`)
               : null;
-            const pill = [statusLabel, p.availabilityLabel].filter(Boolean).join(" / ");
+            const pill = statusPill(statusLabel, p.availabilityLabel);
             const interest = stegaClean(p.enquiryInterest) || "available-residence";
             return (
               <Reveal as="li" key={p._id}>
@@ -69,11 +87,12 @@ export async function AvailableResidences({
                       </p>
                     ) : null}
                     <h3 className="mt-6 font-display text-[clamp(1.875rem,2.8vw,2.5rem)] leading-tight">{p.name}</h3>
-                    <p className="mt-3 text-[0.9375rem] text-muted">
-                      {facts(p).map((f, i) => (
+                    <p className="mt-3 flex flex-wrap text-[0.9375rem] text-muted">
+                      {facts(p).map((f, i, all) => (
                         <span key={f} className="whitespace-nowrap">
-                          {i > 0 ? <span aria-hidden="true"> • </span> : null}
                           {f}
+                          {/* Trailing, so a wrapped line never starts with a separator. */}
+                          {i < all.length - 1 ? <span aria-hidden="true" className="px-1.5">•</span> : null}
                         </span>
                       ))}
                     </p>

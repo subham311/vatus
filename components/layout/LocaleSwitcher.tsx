@@ -3,8 +3,14 @@
 import { useLocale, useTranslations } from "next-intl";
 import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { BrazilFlag, UsFlag } from "@/components/ui/Flags";
 import { cn } from "@/lib/cn";
 import { useAlternates } from "./Alternates";
+
+const FLAGS: Record<Locale, { Flag: typeof BrazilFlag; name: string }> = {
+  pt: { Flag: BrazilFlag, name: "Português (Brasil)" },
+  en: { Flag: UsFlag, name: "English (US)" },
+};
 
 export function LocaleSwitcher({
   className,
@@ -22,17 +28,13 @@ export function LocaleSwitcher({
 
   return (
     <nav aria-label={t("languageSwitcher")} className={cn("flex items-center", className)}>
-      <ul className="flex items-center">
-        {routing.locales.map((locale, i) => {
+      <ul className={cn("flex items-center", size === "lg" ? "gap-3" : "gap-1")}>
+        {routing.locales.map((locale) => {
           const active = locale === current;
           const href = alternates?.[locale] ?? pathname;
+          const { Flag, name } = FLAGS[locale];
           return (
             <li key={locale} className="flex items-center">
-              {i > 0 ? (
-                <span aria-hidden="true" className="px-1.5 text-line">
-                  |
-                </span>
-              ) : null}
               {/* A full document load: the root layout, <html lang> and router cache all change. */}
               <a
                 href={getPathname({ href, locale })}
@@ -40,14 +42,25 @@ export function LocaleSwitcher({
                 lang={locale === "pt" ? "pt-BR" : "en"}
                 aria-current={active ? "true" : undefined}
                 onClick={onNavigate}
+                title={name}
                 className={cn(
-                  "inline-flex min-h-11 min-w-8 items-center justify-center uppercase tracking-[0.12em] transition-colors",
-                  size === "lg" ? "text-base" : "text-xs",
-                  active ? "font-semibold text-ink" : "text-muted hover:text-ink",
+                  "group relative inline-flex min-h-11 min-w-11 items-center justify-center",
+                  // A short hairline under the current language; the others sit back until hovered.
+                  "after:absolute after:bottom-2 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-ink after:transition-[width] after:duration-300",
+                  size === "lg" ? "after:w-0 aria-[current]:after:w-7" : "after:w-0 aria-[current]:after:w-5",
                 )}
               >
-                {active ? <span className="sr-only">{t("currentLanguage")}: </span> : null}
-                {locale.toUpperCase()}
+                <Flag
+                  className={cn(
+                    "transition-[opacity,filter] duration-300",
+                    size === "lg" ? "h-[1.3125rem] w-[1.875rem]" : "h-[0.875rem] w-5",
+                    active ? "opacity-100" : "opacity-55 saturate-[0.35] group-hover:opacity-100 group-hover:saturate-100",
+                  )}
+                />
+                <span className="sr-only">
+                  {active ? `${t("currentLanguage")}: ` : null}
+                  {name}
+                </span>
               </a>
             </li>
           );

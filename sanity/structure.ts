@@ -18,7 +18,7 @@ import { supportedLanguages } from "./languages";
 function singleton(
   S: StructureBuilder,
   getClient: Parameters<StructureResolver>[1]["getClient"],
-  type: "siteSettings" | "homePage" | "aboutPage" | "journalPage" | "privacyPage",
+  type: "siteSettings" | "homePage" | "aboutPage" | "journalPage" | "privacyPage" | "projectsPage",
   title: string,
   icon: typeof HomeIcon,
 ) {
@@ -91,6 +91,7 @@ export const structure: StructureResolver = (S, { getClient }) =>
     .title("VATUS")
     .items([
       singleton(S, getClient, "homePage", "Homepage", HomeIcon),
+      singleton(S, getClient, "projectsPage", "Projects page", HomeIcon),
       singleton(S, getClient, "aboutPage", "About page", UserIcon),
       singleton(S, getClient, "journalPage", "Journal page", DocumentsIcon),
       singleton(S, getClient, "privacyPage", "Privacy page", LockIcon),

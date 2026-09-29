@@ -11,10 +11,11 @@ export const localizedTypes = [
   "aboutPage",
   "journalPage",
   "privacyPage",
+  "projectsPage",
   "project",
   "article",
   "category",
   "author",
 ] as const;
 
-export const singletonTypes = ["siteSettings", "homePage", "aboutPage", "journalPage", "privacyPage"] as const;
+export const singletonTypes = ["siteSettings", "homePage", "aboutPage", "journalPage", "privacyPage", "projectsPage"] as const;

@@ -3,6 +3,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { absoluteUrl, localePath } from "@/lib/seo";
 import { client } from "@/sanity/lib/client";
 import { SITEMAP_QUERY } from "@/sanity/lib/queries";
+import { projectsIndexActive } from "@/sanity/lib/data";
 
 export const revalidate = 3600;
 
@@ -43,6 +44,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const locale of routing.locales) {
       entries.push(entry(locale, "/privacy", lastPrivacy, { pt: "/privacy", en: "/privacy" }));
     }
+  }
+
+  // The projects index exists only once there are more project pages than the homepage shows.
+  for (const locale of routing.locales) {
+    const pages = (data?.projectLanguages ?? []).filter((l) => l === locale).length;
+    const maxCards = data?.home?.find((h) => h.language === locale)?.maxCards;
+    if (projectsIndexActive(pages, maxCards)) entries.push(entry(locale, "/projects"));
   }
 
   // Only projects with an enabled page are listed.

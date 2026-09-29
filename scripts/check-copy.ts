@@ -22,11 +22,29 @@ const FORBIDDEN = [
   "we arrange your finance",
   "cheap homes",
   "affordable houses",
+  // Portuguese equivalents
+  "casa dos sonhos",
+  "casa dos seus sonhos",
+  "realize seu sonho",
+  "realize o seu sonho",
+  "melhor preço",
+  "oportunidade imperdível",
+  "padrão europeu",
+  "luxo a preço acessível",
+  "acabamento premium a preço baixo",
+  "financiamento facilitado",
+  "financiamento fácil",
+  "sua casa mcmv",
+  "casas baratas",
+  "casas populares",
 ];
 
 /** Allowed only inside the independent-lender disclaimer. */
 const RESTRICTED = ["minha casa minha vida"];
-const DISCLAIMER_MARKER = "determined independently by the relevant financial institution";
+const DISCLAIMER_MARKERS = [
+  "determined independently by the relevant financial institution",
+  "determinadas de forma independente pela instituição financeira responsável",
+];
 
 const ROOT = process.cwd();
 const SCAN = ["app", "components", "lib", "messages", "sanity", "scripts/seed.ts"];
@@ -51,7 +69,7 @@ function check(text: string, where: string) {
     let i = lower.indexOf(phrase);
     while (i !== -1) {
       const context = lower.slice(Math.max(0, i - 400), i + 400);
-      if (!context.includes(DISCLAIMER_MARKER)) {
+      if (!DISCLAIMER_MARKERS.some((marker) => context.includes(marker))) {
         problems.push(`${where}: “${phrase}” outside the financing disclaimer`);
       }
       i = lower.indexOf(phrase, i + phrase.length);
@@ -75,7 +93,7 @@ async function checkDataset() {
   }
   const client = createClient({ projectId, dataset, token, apiVersion: "2025-08-15", useCdn: false, perspective: "raw" });
   const docs = await client.fetch<Array<{ _id: string } & Record<string, unknown>>>(
-    `*[_type in ["siteSettings", "homePage", "project", "article", "category", "author"]]`,
+    `*[_type in ["siteSettings", "homePage", "aboutPage", "journalPage", "privacyPage", "project", "article", "category", "author"]]`,
   );
   for (const doc of docs) {
     const { financingDisclaimer, ...rest } = doc as { financingDisclaimer?: string };

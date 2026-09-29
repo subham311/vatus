@@ -17,7 +17,7 @@ import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { SelectedResidence } from "@/components/sections/SelectedResidence";
 import type { Locale } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
-import { getHome, getSettings } from "@/sanity/lib/data";
+import { getHome, getProjectsIndex, getSettings } from "@/sanity/lib/data";
 
 /** A section renders unless an editor has switched it off. */
 const on = <T extends { enabled?: boolean | null } | null | undefined>(s: T): s is NonNullable<T> =>
@@ -38,7 +38,11 @@ export async function generateMetadata({ params }: PageProps<"/[locale]">): Prom
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = (await params) as { locale: Locale };
   setRequestLocale(locale);
-  const [{ data: home }, { data: settings }] = await Promise.all([getHome(locale), getSettings(locale)]);
+  const [{ data: home }, { data: settings }, projectsIndex] = await Promise.all([
+    getHome(locale),
+    getSettings(locale),
+    getProjectsIndex(locale),
+  ]);
 
   if (!home) {
     return (
@@ -72,7 +76,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {on(home.intelligentResources) ? <IntelligentResources data={home.intelligentResources} /> : null}
       {on(home.internationalExperience) ? <InternationalExperience data={home.internationalExperience} /> : null}
       {on(home.availableResidences) ? (
-        <AvailableResidences data={home.availableResidences} financingDisclaimer={settings?.financingDisclaimer ?? null} />
+        <AvailableResidences
+          data={home.availableResidences}
+          financingDisclaimer={settings?.financingDisclaimer ?? null}
+          projectsIndex={projectsIndex.active}
+        />
       ) : null}
       {on(home.journalPreview) ? <JournalPreview data={home.journalPreview} articles={home.journalArticles ?? []} /> : null}
       {on(home.contact) ? <Contact data={home.contact} settings={settings} /> : null}

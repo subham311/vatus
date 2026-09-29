@@ -131,7 +131,7 @@ export function AboutCredentials({ data }: { data: About }) {
     <section aria-labelledby="credentials-heading" className="border-t border-line section-y">
       <div className="container-site grid gap-8 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-4">
-          <h2 id="credentials-heading" className="font-display text-[clamp(1.5rem,2.2vw,2rem)] leading-tight">
+          <h2 id="credentials-heading" className="font-heading text-[clamp(1.5rem,2.2vw,2rem)] leading-tight">
             {data.credentialsHeading}
           </h2>
         </div>
@@ -177,7 +177,7 @@ export function AboutPhilosophy({ data }: { data: About }) {
                 className="grid grid-cols-[2.5rem_1fr] items-baseline border-b border-line-dark py-5 md:grid-cols-[3.5rem_1fr] md:py-6"
               >
                 <span className="eyebrow text-[0.6875rem] text-on-dark-muted">{pad(i + 1)}</span>
-                <p className="font-display text-[clamp(1.375rem,2.2vw,2rem)] leading-[1.25] text-on-dark">{b}</p>
+                <p className="font-heading text-[clamp(1.375rem,2.2vw,2rem)] leading-[1.25] text-on-dark">{b}</p>
               </Reveal>
             ))}
           </ol>
@@ -204,7 +204,7 @@ export function AboutClosing({ data }: { data: About }) {
             {data.closingStatement}
           </h2>
           {data.closingSupporting ? (
-            <p className="mt-8 max-w-[44rem] font-display text-[clamp(1.375rem,2.4vw,2.25rem)] leading-[1.3] text-on-dark-muted md:mt-12">
+            <p className="mt-8 max-w-[44rem] font-heading text-[clamp(1.375rem,2.4vw,2.25rem)] leading-[1.3] text-on-dark-muted md:mt-12">
               {data.closingSupporting}
             </p>
           ) : null}

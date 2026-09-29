@@ -6,7 +6,7 @@ const components: PortableTextComponents = {
     normal: ({ children }) => <p>{children}</p>,
   },
   marks: {
-    strong: ({ children }) => <strong className="font-semibold text-current">{children}</strong>,
+    strong: ({ children }) => <strong className="font-medium text-current">{children}</strong>,
     em: ({ children }) => <em className="italic">{children}</em>,
   },
 };

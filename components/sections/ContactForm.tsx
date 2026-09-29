@@ -114,7 +114,7 @@ export function ContactForm({ interests, turnstileSiteKey }: { interests: Option
   if (showSuccess) {
     return (
       <div className="border border-line bg-surface p-8 md:p-10" role="status">
-        <h3 ref={successRef} tabIndex={-1} className="font-display text-[2rem] leading-tight focus:outline-none">
+        <h3 ref={successRef} tabIndex={-1} className="font-heading text-[2rem] leading-tight focus:outline-none">
           {t("successTitle")}
         </h3>
         <p className="mt-4 text-muted">{t("successBody")}</p>
@@ -151,7 +151,7 @@ export function ContactForm({ interests, turnstileSiteKey }: { interests: Option
               <p className="text-ink">{t("spamCheck")}</p>
             ) : (
               <>
-                <p className="font-semibold text-ink">{t("failureTitle")}</p>
+                <p className="font-medium text-ink">{t("failureTitle")}</p>
                 <p className="mt-1 text-muted">{t("failureBody")}</p>
               </>
             )}

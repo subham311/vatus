@@ -72,7 +72,7 @@ export function FloorPlanInteractive({
               >
                 <span
                   className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ring-2 ring-surface transition-[background-color,color,transform] duration-300",
+                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium ring-2 ring-surface transition-[background-color,color,transform] duration-300",
                     isActive ? "scale-110 bg-ink text-on-dark" : "bg-olive text-on-dark",
                   )}
                 >
@@ -87,7 +87,7 @@ export function FloorPlanInteractive({
         <p aria-live="polite" className="mt-4 min-h-12 text-sm text-muted lg:hidden">
           {activeNote ? (
             <>
-              <span className="font-semibold text-ink">
+              <span className="font-medium text-ink">
                 {activeNote.number}. {activeNote.title}
               </span>{" "}
               {activeNote.text}
@@ -128,14 +128,14 @@ export function FloorPlanInteractive({
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm font-semibold transition-colors duration-300",
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-sm font-medium transition-colors duration-300",
                     isActive ? "border-ink bg-ink text-on-dark" : "border-olive text-olive",
                   )}
                 >
                   {note.number}
                 </span>
                 <span className="flex flex-col gap-1">
-                  <span className="font-display text-2xl leading-tight">{note.title}</span>
+                  <span className="font-heading text-2xl leading-tight">{note.title}</span>
                   {note.text ? (
                     <span id={`${id}-note-${note.number}`} className="text-[0.9375rem] text-muted">
                       {note.text}

@@ -32,7 +32,7 @@ export async function ArticleCard({ article, headingLevel = "h3" }: { article: A
         placeholderLabel={tc("imageToCome")}
       />
       {article.category ? <p className="eyebrow mt-6 text-[0.6875rem] text-muted">{article.category}</p> : null}
-      <Heading className="mt-3 font-display text-[1.75rem] leading-tight">
+      <Heading className="mt-3 font-heading text-[1.75rem] leading-tight">
         <Link
           href={`/journal/${stegaClean(article.slug)}`}
           className="after:absolute after:inset-0 group-hover:underline group-hover:decoration-1 group-hover:underline-offset-4"

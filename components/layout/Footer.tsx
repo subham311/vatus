@@ -2,15 +2,18 @@ import { getTranslations } from "next-intl/server";
 import { stegaClean } from "next-sanity";
 import { Link } from "@/i18n/navigation";
 import { InstagramIcon } from "@/components/ui/BrandIcons";
-import { resolveCta, type ResolvedLink } from "@/lib/links";
+import { gtmId } from "@/lib/consent";
+import { resolveCta, withProjectsIndex, type ResolvedLink } from "@/lib/links";
 import type { Settings } from "@/sanity/lib/data";
+import { CookieSettingsButton } from "./CookieConsent";
 import { Wordmark } from "./Header";
 
-export async function Footer({ settings }: { settings: Settings | null }) {
+export async function Footer({ settings, projectsIndex = false }: { settings: Settings | null; projectsIndex?: boolean }) {
   const t = await getTranslations("common");
-  const items = (settings?.navItems ?? [])
-    .map(resolveCta)
-    .filter((l): l is ResolvedLink => Boolean(l));
+  const items = withProjectsIndex(
+    (settings?.navItems ?? []).map(resolveCta).filter((l): l is ResolvedLink => Boolean(l)),
+    projectsIndex,
+  );
   const privacy = stegaClean(settings?.privacyPolicyUrl);
   const privacyExternal = privacy ? /^https?:/.test(privacy) : false;
   const year = new Date().getFullYear();
@@ -67,17 +70,20 @@ export async function Footer({ settings }: { settings: Settings | null }) {
           <p>
             © {year} {settings?.siteName || "VATUS"}. {t("rights")}
           </p>
-          {privacy ? (
-            privacyExternal ? (
-              <a href={privacy} className="inline-flex min-h-11 items-center hover:text-ink" target="_blank" rel="noopener noreferrer">
-                {t("privacyPolicy")}
-              </a>
-            ) : (
-              <Link href={privacy} className="inline-flex min-h-11 items-center hover:text-ink">
-                {t("privacyPolicy")}
-              </Link>
-            )
-          ) : null}
+          <div className="flex flex-wrap gap-x-6">
+            {privacy ? (
+              privacyExternal ? (
+                <a href={privacy} className="inline-flex min-h-11 items-center hover:text-ink" target="_blank" rel="noopener noreferrer">
+                  {t("privacyPolicy")}
+                </a>
+              ) : (
+                <Link href={privacy} className="inline-flex min-h-11 items-center hover:text-ink">
+                  {t("privacyPolicy")}
+                </Link>
+              )
+            ) : null}
+            {gtmId ? <CookieSettingsButton /> : null}
+          </div>
         </div>
       </div>
     </footer>

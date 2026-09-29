@@ -14,6 +14,26 @@ export type ResolvedLink = { href: string; external: boolean; label: string };
 /** Homepage anchors always resolve through the (locale-aware) home route. */
 export const anchorHref = (anchor: string) => `/#${anchor}`;
 
+/** The projects index, once it is switched on (see projectsIndexActive). */
+export const PROJECTS_INDEX_PATH = "/projects";
+
+/**
+ * While there is a projects index, nav items that point at the homepage's
+ * projects section go to the index instead. Editors keep a single nav setup.
+ */
+export function withProjectsIndex(items: ResolvedLink[], indexActive: boolean): ResolvedLink[] {
+  if (!indexActive) return items;
+  const anchor = anchorHref("projects");
+  return items.map((item) => (item.href === anchor ? { ...item, href: PROJECTS_INDEX_PATH } : item));
+}
+
+/** “Under construction / Available”, without repeating a label that says the same as the status. */
+export function statusPill(statusLabel: string | null, availabilityLabel?: string | null) {
+  const extra = stegaClean(availabilityLabel)?.trim();
+  const same = extra && statusLabel && extra.toLowerCase() === statusLabel.toLowerCase();
+  return [statusLabel, same ? null : availabilityLabel].filter(Boolean).join(" / ");
+}
+
 export function projectHref(project: { slug?: string | null; pageEnabled?: boolean | null }, fallbackAnchor = "projects") {
   const slug = stegaClean(project.slug);
   return project.pageEnabled && slug ? `/projects/${slug}` : anchorHref(fallbackAnchor);

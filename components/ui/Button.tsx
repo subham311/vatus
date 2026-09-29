@@ -5,7 +5,7 @@ import { cn } from "@/lib/cn";
 export type ButtonVariant = "primary" | "outline" | "outline-light" | "text";
 
 const base =
-  "group inline-flex min-h-11 items-center justify-center gap-3 text-[0.9375rem] font-medium tracking-[0.01em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-3";
+  "group inline-flex min-h-11 items-center justify-center gap-3 text-[0.9375rem] font-normal tracking-[0.02em] transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-3";
 
 const variants: Record<ButtonVariant, string> = {
   primary:

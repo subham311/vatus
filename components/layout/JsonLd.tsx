@@ -1,5 +1,5 @@
 import { stegaClean } from "next-sanity";
-import { absoluteUrl, localePath, DEFAULT_DESCRIPTION } from "@/lib/seo";
+import { absoluteUrl, localePath, DEFAULT_DESCRIPTION, SLOGAN } from "@/lib/seo";
 import type { Locale } from "@/i18n/routing";
 import type { Settings } from "@/sanity/lib/data";
 import { urlFor } from "@/sanity/lib/image";
@@ -16,8 +16,8 @@ export function OrganizationJsonLd({ settings, locale }: { settings: Settings | 
     "@type": "HomeAndConstructionBusiness",
     "@id": `${absoluteUrl("/")}#organization`,
     name: s?.siteName || "VATUS",
-    description: s?.defaultSeo?.description || DEFAULT_DESCRIPTION,
-    slogan: "Homes designed for better living.",
+    description: s?.defaultSeo?.description || DEFAULT_DESCRIPTION[locale],
+    slogan: SLOGAN[locale],
     url,
     logo,
     image: logo,

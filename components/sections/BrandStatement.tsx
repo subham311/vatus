@@ -11,7 +11,7 @@ export function BrandStatement({ data }: { data: NonNullable<Home["brandStatemen
             {data.statement}
           </h2>
           {data.supporting ? (
-            <p className="mt-8 max-w-[44rem] font-display text-[clamp(1.375rem,2.4vw,2.25rem)] leading-[1.3] text-on-dark-muted md:mt-12">
+            <p className="mt-8 max-w-[44rem] font-heading text-[clamp(1.375rem,2.4vw,2.25rem)] leading-[1.3] text-on-dark-muted md:mt-12">
               {data.supporting}
             </p>
           ) : null}

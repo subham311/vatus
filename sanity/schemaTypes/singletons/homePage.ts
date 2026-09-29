@@ -181,8 +181,18 @@ export const homePage = defineType({
         of: [defineArrayMember({ type: "reference", to: [{ type: "project" }] })],
         validation: (R) => R.unique(),
       }),
+      defineField({
+        name: "maxCards",
+        title: "Number of cards",
+        type: "number",
+        initialValue: 2,
+        description:
+          "How many of the projects above show here. Once more projects have their page enabled than this, a Projects page (/projects) switches on and a “View all” link appears.",
+        validation: (R) => R.min(1).max(6).integer(),
+      }),
       defineField({ name: "viewLabel", title: "View button label", type: "string" }),
       defineField({ name: "enquireLabel", title: "Enquire button label", type: "string" }),
+      defineField({ name: "viewAllLabel", title: "“View all” link label", type: "string" }),
     ]),
     section("journalPreview", "13 Journal preview", [
       heading(),

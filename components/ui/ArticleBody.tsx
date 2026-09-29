@@ -26,7 +26,7 @@ export function ArticleBody({
     block: {
       normal: ({ children }) => <p className="my-6">{children}</p>,
       h2: ({ children }) => <h2 className="mt-16 mb-6 font-display text-[2.25rem] leading-tight">{children}</h2>,
-      h3: ({ children }) => <h3 className="mt-12 mb-4 font-display text-[1.75rem] leading-tight">{children}</h3>,
+      h3: ({ children }) => <h3 className="mt-12 mb-4 font-heading text-[1.5rem] leading-snug">{children}</h3>,
       blockquote: ({ children }) => (
         <blockquote className="my-10 border-l border-ink pl-6 font-display text-[1.5rem] leading-snug">{children}</blockquote>
       ),

@@ -114,7 +114,7 @@ export async function JournalFeatured({ data }: { data: Data }) {
             {date ? <span aria-hidden="true"> · </span> : null}
             {t("readingTime", { minutes })}
           </p>
-          <p aria-hidden="true" className="mt-8 inline-flex items-center gap-3 text-[0.9375rem] font-medium">
+          <p aria-hidden="true" className="mt-8 inline-flex items-center gap-3 text-[0.9375rem] font-normal tracking-[0.02em]">
             {t("readArticle")}
             <Arrow />
           </p>

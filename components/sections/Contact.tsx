@@ -38,7 +38,7 @@ export async function Contact({
         <Reveal className="lg:col-span-5">
           {data.heading ? <SectionHeading id="contact-heading">{data.heading}</SectionHeading> : null}
           {data.subheading ? (
-            <p className="mt-6 font-display text-[1.625rem] leading-snug text-ink">{data.subheading}</p>
+            <p className="mt-6 font-heading text-[1.625rem] leading-snug text-ink">{data.subheading}</p>
           ) : null}
           {data.body ? <p className="mt-6 max-w-[28rem] text-muted">{data.body}</p> : null}
 

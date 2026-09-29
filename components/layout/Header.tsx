@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { urlFor } from "@/sanity/lib/image";
 import { cn } from "@/lib/cn";
-import { resolveCta, type ResolvedLink } from "@/lib/links";
+import { resolveCta, withProjectsIndex, type ResolvedLink } from "@/lib/links";
 import type { Settings } from "@/sanity/lib/data";
 import { HeaderNav } from "./HeaderNav";
 
@@ -69,11 +69,12 @@ export function Wordmark({
   );
 }
 
-export async function Header({ settings }: { settings: Settings | null }) {
+export async function Header({ settings, projectsIndex = false }: { settings: Settings | null; projectsIndex?: boolean }) {
   const t = await getTranslations("common");
-  const items = (settings?.navItems ?? [])
-    .map(resolveCta)
-    .filter((l): l is ResolvedLink => Boolean(l));
+  const items = withProjectsIndex(
+    (settings?.navItems ?? []).map(resolveCta).filter((l): l is ResolvedLink => Boolean(l)),
+    projectsIndex,
+  );
   const cta = resolveCta(settings?.headerCta);
 
   return (

@@ -7,6 +7,8 @@ export const resolve: PresentationPluginOptions["resolve"] = {
   mainDocuments: defineDocuments([
     { route: "/", filter: `_type == "homePage" && language == "pt"` },
     { route: "/en", filter: `_type == "homePage" && language == "en"` },
+    { route: "/projects", filter: `_type == "projectsPage" && language == "pt"` },
+    { route: "/en/projects", filter: `_type == "projectsPage" && language == "en"` },
     { route: "/about", filter: `_type == "aboutPage" && language == "pt"` },
     { route: "/en/about", filter: `_type == "aboutPage" && language == "en"` },
     { route: "/journal", filter: `_type == "journalPage" && language == "pt"` },
@@ -35,6 +37,12 @@ export const resolve: PresentationPluginOptions["resolve"] = {
       select: { language: "language" },
       resolve: (doc) => ({
         locations: [{ title: "Homepage", href: localePrefix(doc?.language) || "/" }],
+      }),
+    }),
+    projectsPage: defineLocations({
+      select: { language: "language" },
+      resolve: (doc) => ({
+        locations: [{ title: "Projects", href: `${localePrefix(doc?.language)}/projects` }],
       }),
     }),
     aboutPage: defineLocations({

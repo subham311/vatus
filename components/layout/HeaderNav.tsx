@@ -68,7 +68,7 @@ export function HeaderNav({
               ? active === anchor
               : !item.external && item.href !== "/" && pathname.startsWith(item.href);
             const className = cn(
-              "relative inline-flex min-h-11 items-center text-sm tracking-[0.01em] transition-colors",
+              "relative inline-flex min-h-11 items-center text-sm tracking-[0.03em] transition-colors",
               "after:absolute after:inset-x-0 after:bottom-2.5 after:h-px after:origin-left after:bg-ink after:transition-transform after:duration-500",
               current
                 ? "text-ink after:scale-x-100"

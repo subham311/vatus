@@ -36,7 +36,7 @@ export async function ConstructionQuality({ data }: { data: NonNullable<Home["co
             </ul>
           ) : null}
           {data.closing ? (
-            <p className="mt-10 max-w-[30rem] font-display text-[1.625rem] leading-snug text-on-dark">
+            <p className="mt-10 max-w-[30rem] font-heading text-[1.625rem] leading-snug text-on-dark">
               {data.closing}
             </p>
           ) : null}

@@ -22,6 +22,7 @@ import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
 import { journalPage } from "./singletons/journalPage";
 import { privacyPage } from "./singletons/privacyPage";
+import { projectsPage } from "./singletons/projectsPage";
 import { siteSettings } from "./singletons/siteSettings";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -31,6 +32,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   aboutPage,
   journalPage,
   privacyPage,
+  projectsPage,
   // Documents
   project,
   article,

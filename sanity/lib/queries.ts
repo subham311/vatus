@@ -120,7 +120,7 @@ export const HOME_QUERY = defineQuery(`
       cta${CTA}
     },
     availableResidences{
-      enabled, eyebrow, viewLabel, enquireLabel,
+      enabled, eyebrow, viewLabel, enquireLabel, viewAllLabel, maxCards,
       projects[]->${PROJECT_CARD}
     },
     journalPreview{ enabled, heading, intro, mode, cta${CTA} },
@@ -188,6 +188,28 @@ export const PRIVACY_QUERY = defineQuery(`
   }
 `);
 
+export const PROJECTS_PAGE_QUERY = defineQuery(`
+  *[_type == "projectsPage" && language == $language][0]{
+    _id,
+    _type,
+    eyebrow,
+    heading,
+    intro,
+    closingStatement,
+    closingCta${CTA},
+    seo{ title, description, noIndex, shareImage${IMAGE} }
+  }
+`);
+
+/** Projects with their own page: available first, sold last, newest first within each. */
+export const PROJECTS_INDEX_QUERY = defineQuery(`
+  *[_type == "project" && language == $language && pageEnabled == true && defined(slug.current)]
+    | order(
+        select(status == "available" => 0, status == "under-construction" => 1, status == "reserved" => 2, status == "sold" => 3, 4) asc,
+        _createdAt desc
+      )${PROJECT_CARD}
+`);
+
 export const PROJECT_QUERY = defineQuery(`
   *[_type == "project" && language == $language && slug.current == $slug][0]{
     ...${PROJECT_CARD},
@@ -230,7 +252,8 @@ export const SITEMAP_QUERY = defineQuery(`{
   "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{
     language, "slug": slug.current, _updatedAt
   },
-  "home": *[_type == "homePage"]{ language, _updatedAt },
+  "home": *[_type == "homePage"]{ language, _updatedAt, "maxCards": availableResidences.maxCards },
+  "projectLanguages": *[_type == "project" && pageEnabled == true && defined(slug.current)].language,
   "privacy": *[_type == "privacyPage" && defined(body[0]) && seo.noIndex != true]{ language, _updatedAt }
 }`);
 

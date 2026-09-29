@@ -30,7 +30,7 @@ export function DesignPrinciples({ data }: { data: NonNullable<Home["designPrinc
             return (
               <Reveal as="li" key={p._key} delay={i * 0.08} className="border-t border-line pt-8">
                 <Icon aria-hidden="true" strokeWidth={1.25} className="h-9 w-9 text-olive-soft" />
-                <h3 className="mt-8 font-display text-[1.875rem] leading-tight">{p.title}</h3>
+                <h3 className="mt-8 font-heading text-[1.875rem] leading-tight">{p.title}</h3>
                 {p.text ? <p className="mt-4 text-[0.9375rem] text-muted">{p.text}</p> : null}
               </Reveal>
             );

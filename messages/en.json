@@ -106,11 +106,27 @@
       "general": "General enquiry"
     }
   },
+  "consent": {
+    "heading": "Cookies",
+    "body": "We would like to use analytics cookies to understand how the site is used. They are only set if you accept.",
+    "learnMore": "Privacy policy",
+    "accept": "Accept",
+    "decline": "Decline",
+    "settings": "Cookie settings"
+  },
   "privacy": {
     "eyebrow": "Legal",
     "lastUpdated": "Last updated {date}"
   },
+  "projects": {
+    "heading": "Residences designed around everyday life.",
+    "intro": "Architecture-led homes in Goiânia and its surrounding region, each planned around light, comfort and the way a family actually lives.",
+    "viewAll": "View all projects",
+    "closing": "Interested in one of our residences?",
+    "contact": "Get in touch"
+  },
   "pages": {
+    "projects": "Projects",
     "about": "About VATUS",
     "journal": "Journal",
     "privacy": "Privacy policy"

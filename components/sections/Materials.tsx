@@ -23,7 +23,7 @@ export async function Materials({ data }: { data: NonNullable<Home["materials"]>
               className="max-w-[36rem] text-muted [&>p:first-child]:text-lead [&>p:first-child]:text-ink"
             />
             {data.closing ? (
-              <p className="mt-8 font-display text-[1.75rem] leading-snug text-ink">{data.closing}</p>
+              <p className="mt-8 font-heading text-[1.75rem] leading-snug text-ink">{data.closing}</p>
             ) : null}
           </Reveal>
         </div>

@@ -83,7 +83,7 @@ export function MobileMenu({
               const anchor = item.href.startsWith("/#") ? item.href.slice(2) : null;
               const current = anchor !== null && anchor === activeAnchor;
               const className = cn(
-                "flex min-h-14 items-center border-b border-line py-3 font-display text-[2.25rem] leading-tight transition-colors",
+                "flex min-h-14 items-center border-b border-line py-3 font-heading text-[2.25rem] leading-tight transition-colors",
                 current ? "text-ink" : "text-ink/80 hover:text-ink",
               );
               return (

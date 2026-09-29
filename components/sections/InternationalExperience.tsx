@@ -28,7 +28,7 @@ export function InternationalExperience({ data }: { data: NonNullable<Home["inte
                   className="absolute top-1.5 -left-[2.3rem] h-2.5 w-2.5 rounded-full border border-on-dark bg-olive md:-top-[45px] md:left-0"
                 />
                 <p className="eyebrow text-[0.6875rem] text-on-dark-muted">{item.period}</p>
-                <h3 className="mt-2 font-display text-[1.75rem] leading-tight text-on-dark">{item.country}</h3>
+                <h3 className="mt-2 font-heading text-[1.75rem] leading-tight text-on-dark">{item.country}</h3>
                 {item.text ? <p className="mt-3 text-[0.9375rem] text-on-dark-muted">{item.text}</p> : null}
               </Reveal>
             ))}

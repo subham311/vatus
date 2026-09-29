@@ -1,23 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { consentDefaultsScript, gtmId } from "@/lib/consent";
 import "../globals.css";
 
-const cormorant = Cormorant_Garamond({
+// Large headings only. The optical-size axis gives the finer display cut at big sizes.
+const newsreader = Newsreader({
   subsets: ["latin"],
-  weight: ["400"],
   style: ["normal"],
-  variable: "--font-cormorant",
+  axes: ["opsz"],
+  variable: "--font-newsreader",
   display: "swap",
 });
 
-const manrope = Manrope({
+// Everything else: navigation, body, buttons, labels and smaller headings.
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-manrope",
+  axes: ["opsz"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -47,12 +50,13 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale === "pt" ? "pt-BR" : "en"}
-      className={`${cormorant.variable} ${manrope.variable}`}
+      className={`${newsreader.variable} ${inter.variable}`}
       // The inline script below adds the "js" class before hydration.
       suppressHydrationWarning
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
+        {gtmId ? <script dangerouslySetInnerHTML={{ __html: consentDefaultsScript }} /> : null}
       </head>
       <body>
         <a

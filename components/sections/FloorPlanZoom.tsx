@@ -100,7 +100,7 @@ export default function FloorPlanZoom({
                     aria-hidden="true"
                   >
                     <KeepScale>
-                      <span className="flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-olive text-sm font-semibold text-on-dark ring-2 ring-surface">
+                      <span className="flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-olive text-sm font-medium text-on-dark ring-2 ring-surface">
                         {note.number}
                       </span>
                     </KeepScale>

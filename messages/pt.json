@@ -106,11 +106,27 @@
       "general": "Assunto geral"
     }
   },
+  "consent": {
+    "heading": "Cookies",
+    "body": "Gostaríamos de usar cookies de análise para entender como o site é utilizado. Eles só são ativados se você aceitar.",
+    "learnMore": "Política de privacidade",
+    "accept": "Aceitar",
+    "decline": "Recusar",
+    "settings": "Configurações de cookies"
+  },
   "privacy": {
     "eyebrow": "Legal",
     "lastUpdated": "Última atualização: {date}"
   },
+  "projects": {
+    "heading": "Residências pensadas para a vida cotidiana.",
+    "intro": "Casas guiadas pela arquitetura em Goiânia e região, cada uma planejada em torno da luz, do conforto e da forma como uma família realmente vive.",
+    "viewAll": "Ver todos os projetos",
+    "closing": "Tem interesse em uma de nossas residências?",
+    "contact": "Fale conosco"
+  },
   "pages": {
+    "projects": "Projetos",
     "about": "Sobre a VATUS",
     "journal": "Journal",
     "privacy": "Política de privacidade"
