@@ -87,7 +87,24 @@ export const article = defineType({
       name: "relatedArticles",
       type: "array",
       group: "meta",
-      of: [defineArrayMember({ type: "reference", to: [{ type: "article" }] })],
+      description: "Up to 3. Leave empty to show the latest articles instead.",
+      of: [
+        defineArrayMember({
+          type: "reference",
+          to: [{ type: "article" }],
+          options: {
+            // Same language, and never the article itself.
+            filter: ({ document }) => ({
+              filter: "language == $language && !(_id in [$id, $draft])",
+              params: {
+                language: (document as { language?: string }).language,
+                id: document._id.replace(/^drafts\./, ""),
+                draft: `drafts.${document._id.replace(/^drafts\./, "")}`,
+              },
+            }),
+          },
+        }),
+      ],
       validation: (R) => R.max(3).unique(),
     }),
     defineField({ name: "seo", type: "seo", group: "seo" }),

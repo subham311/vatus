@@ -2,13 +2,13 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { stegaClean, type PortableTextBlock } from "next-sanity";
 import { getFormatter, getTranslations, setRequestLocale } from "next-intl/server";
+import { JournalClosing, RelatedArticles } from "@/components/sections/Journal";
 import { SetAlternates, type AlternatePaths } from "@/components/layout/Alternates";
 import { ArticleBody } from "@/components/ui/ArticleBody";
-import { Button } from "@/components/ui/Button";
 import { SanityImage } from "@/components/ui/SanityImage";
 import type { Locale } from "@/i18n/routing";
 import { buildMetadata } from "@/lib/seo";
-import { getSettings } from "@/sanity/lib/data";
+import { getJournalPage, getSettings } from "@/sanity/lib/data";
 import { sanityFetch } from "@/sanity/lib/live";
 import { ARTICLE_QUERY } from "@/sanity/lib/queries";
 
@@ -51,11 +51,15 @@ export default async function ArticlePage({ params }: Props) {
   const article = await getArticle(locale, slug);
   if (!article) notFound();
 
+  const { data: journalPage } = await getJournalPage(locale);
   const t = await getTranslations("journal");
   const tc = await getTranslations("common");
   const format = await getFormatter();
   const date = article.publishedAt ? new Date(stegaClean(article.publishedAt)) : null;
   const minutes = Math.max(1, stegaClean(article.readingTime) ?? 1);
+  // Editor picks first (unpublished picks resolve to null); otherwise the latest articles.
+  const picked = (article.relatedArticles ?? []).filter((a) => a?.slug);
+  const related = picked.length ? picked : article.latestArticles;
 
   return (
     <main id="main">
@@ -88,13 +92,10 @@ export default async function ArticlePage({ params }: Props) {
             placeholderLabel={tc("imageToCome")}
             className="mx-auto max-w-[44rem]"
           />
-          <div className="mx-auto mt-16 max-w-[44rem] border-t border-line pt-10">
-            <Button href="/#projects" variant="primary">
-              {t("explore")}
-            </Button>
-          </div>
         </div>
       </article>
+      <RelatedArticles articles={related} />
+      <JournalClosing data={journalPage} />
     </main>
   );
 }

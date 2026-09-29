@@ -124,6 +124,25 @@ export async function JournalFeatured({ data }: { data: Data }) {
   );
 }
 
+export async function RelatedArticles({ articles }: { articles: ArticleCardData[] }) {
+  if (!articles.length) return null;
+  const t = await getTranslations("journal");
+  return (
+    <section aria-labelledby="related-heading" className="border-t border-line section-y">
+      <div className="container-site">
+        <SectionHeading id="related-heading">{t("related")}</SectionHeading>
+        <ul className="mt-14 grid gap-14 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-x-8">
+          {articles.slice(0, 3).map((article, i) => (
+            <Reveal as="li" key={article._id} delay={i * 0.08}>
+              <ArticleCard article={article} />
+            </Reveal>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
 export async function JournalClosing({ data }: { data: Data }) {
   const t = await getTranslations("journal");
   const cta = resolveCta(data?.closingCta) ?? { href: "/#projects", external: false, label: t("explore") };

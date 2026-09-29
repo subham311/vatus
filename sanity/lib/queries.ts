@@ -201,6 +201,10 @@ export const ARTICLE_QUERY = defineQuery(`
     "author": author->name,
     seo{ title, description, noIndex, shareImage${IMAGE} },
     socialImage${IMAGE},
+    "relatedArticles": relatedArticles[]->${ARTICLE_CARD},
+    "latestArticles": *[
+      _type == "article" && language == $language && defined(slug.current) && slug.current != $slug
+    ] | order(publishedAt desc)[0...3]${ARTICLE_CARD},
     "translations": *[_type == "translation.metadata" && references(^._id)][0]
       .translations[].value->{ language, "slug": slug.current }
   }
