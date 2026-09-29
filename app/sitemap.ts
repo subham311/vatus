@@ -37,6 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
+  // The policy is listed once its copy is in (the page is noindex until then).
+  const lastPrivacy = data?.privacy?.map((p) => p._updatedAt).sort().at(-1);
+  if (lastPrivacy) {
+    for (const locale of routing.locales) {
+      entries.push(entry(locale, "/privacy", lastPrivacy, { pt: "/privacy", en: "/privacy" }));
+    }
+  }
+
   // Only projects with an enabled page are listed.
   for (const p of data?.projects ?? []) {
     if (p.slug && (p.language === "pt" || p.language === "en")) {

@@ -204,6 +204,13 @@ export type JournalPageReference = {
   [internalGroqTypeReferenceTo]?: "journalPage";
 };
 
+export type PrivacyPageReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "privacyPage";
+};
+
 export type CategoryReference = {
   _ref: string;
   _type: "reference";
@@ -225,11 +232,44 @@ export type InternationalizedArrayReferenceValue = {
     | HomePageReference
     | AboutPageReference
     | JournalPageReference
+    | PrivacyPageReference
     | ProjectReference
     | ArticleReference
     | CategoryReference
     | AuthorReference;
   language?: string;
+};
+
+export type PrivacyPage = {
+  _id: string;
+  _type: "privacyPage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  language?: string;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  lastUpdated?: string;
+  body?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h2" | "h3";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }>;
+  seo?: Seo;
 };
 
 export type JournalPage = {
@@ -745,9 +785,11 @@ export type AllSanitySchemaTypes =
   | HomePageReference
   | AboutPageReference
   | JournalPageReference
+  | PrivacyPageReference
   | CategoryReference
   | AuthorReference
   | InternationalizedArrayReferenceValue
+  | PrivacyPage
   | JournalPage
   | Article
   | Author
@@ -1422,6 +1464,50 @@ export type JOURNAL_PAGE_QUERY_RESULT = {
 } | null;
 
 // Source: sanity/lib/queries.ts
+// Variable: PRIVACY_QUERY
+// Query: *[_type == "privacyPage" && language == $language][0]{    _id,    _type,    eyebrow,    heading,    intro,    lastUpdated,    body,    seo{ title, description, noIndex, shareImage{  asset,  crop,  hotspot,  alt,  caption,  "lqip": asset->metadata.lqip,  "aspectRatio": asset->metadata.dimensions.aspectRatio} }  }
+export type PRIVACY_QUERY_RESULT = {
+  _id: string;
+  _type: "privacyPage";
+  eyebrow: string | null;
+  heading: string | null;
+  intro: string | null;
+  lastUpdated: string | null;
+  body: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "h2" | "h3" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  }> | null;
+  seo: {
+    title: string | null;
+    description: string | null;
+    noIndex: boolean | null;
+    shareImage: {
+      asset: SanityImageAssetReference | null;
+      crop: SanityImageCrop | null;
+      hotspot: SanityImageHotspot | null;
+      alt: string | null;
+      caption: string | null;
+      lqip: string | null;
+      aspectRatio: number | null;
+    } | null;
+  } | null;
+} | null;
+
+// Source: sanity/lib/queries.ts
 // Variable: PROJECT_QUERY
 // Query: *[_type == "project" && language == $language && slug.current == $slug][0]{    ...{  _id,  name,  "slug": slug.current,  location,  locationDetail,  area,  bedrooms,  bathrooms,  typology,  status,  availabilityLabel,  showPrice,  "price": select(showPrice == true => price, null),  showFinancingNote,  enquiryInterest,  pageEnabled,  mainImage{  asset,  crop,  hotspot,  alt,  caption,  "lqip": asset->metadata.lqip,  "aspectRatio": asset->metadata.dimensions.aspectRatio}},    intro,    concept,    highlights,    availability,    gallery[]{  asset,  crop,  hotspot,  alt,  caption,  "lqip": asset->metadata.lqip,  "aspectRatio": asset->metadata.dimensions.aspectRatio},    seo{ title, description, noIndex, shareImage{  asset,  crop,  hotspot,  alt,  caption,  "lqip": asset->metadata.lqip,  "aspectRatio": asset->metadata.dimensions.aspectRatio} },    "translations": *[_type == "translation.metadata" && references(^._id)][0]      .translations[].value->{ language, "slug": slug.current, pageEnabled }  }
 export type PROJECT_QUERY_RESULT = {
@@ -1666,7 +1752,7 @@ export type ARTICLE_QUERY_RESULT = {
 
 // Source: sanity/lib/queries.ts
 // Variable: SITEMAP_QUERY
-// Query: {  "projects": *[_type == "project" && pageEnabled == true && defined(slug.current) && seo.noIndex != true]{    language, "slug": slug.current, _updatedAt  },  "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{    language, "slug": slug.current, _updatedAt  },  "home": *[_type == "homePage"]{ language, _updatedAt }}
+// Query: {  "projects": *[_type == "project" && pageEnabled == true && defined(slug.current) && seo.noIndex != true]{    language, "slug": slug.current, _updatedAt  },  "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{    language, "slug": slug.current, _updatedAt  },  "home": *[_type == "homePage"]{ language, _updatedAt },  "privacy": *[_type == "privacyPage" && defined(body[0]) && seo.noIndex != true]{ language, _updatedAt }}
 export type SITEMAP_QUERY_RESULT = {
   projects: Array<{
     language: string | null;
@@ -1679,6 +1765,10 @@ export type SITEMAP_QUERY_RESULT = {
     _updatedAt: string;
   }>;
   home: Array<{
+    language: string | null;
+    _updatedAt: string;
+  }>;
+  privacy: Array<{
     language: string | null;
     _updatedAt: string;
   }>;
@@ -1699,10 +1789,11 @@ declare global {
     '\n  *[_type == "homePage" && language == $language][0]{\n    _id,\n    _type,\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    hero{\n      enabled, heading, subheading, locationTag,\n      image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n      primaryCta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n},\n      secondaryCta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n}\n    },\n    manifesto{ enabled, heading, body, image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    brandStatement{ enabled, statement, supporting },\n    selectedResidence{\n      enabled, eyebrow, exploreLabel, enquireLabel,\n      project->{\n        ...{\n  _id,\n  name,\n  "slug": slug.current,\n  location,\n  locationDetail,\n  area,\n  bedrooms,\n  bathrooms,\n  typology,\n  status,\n  availabilityLabel,\n  showPrice,\n  "price": select(showPrice == true => price, null),\n  showFinancingNote,\n  enquiryInterest,\n  pageEnabled,\n  mainImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n}\n},\n        intro,\n        gallery[]{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n        "plan": floorPlans[0]{\n          title,\n          image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n          annotations[]{ _key, number, title, text, x, y }\n        }\n      }\n    },\n    projectGallery{ enabled, heading, showHeading, maxImages },\n    floorPlan{ enabled, heading, intro, fullScreenLabel },\n    designPrinciples{ enabled, heading, principles[]{ _key, key, title, text, icon } },\n    constructionQuality{\n      enabled, heading, body, closing,\n      items[]{ _key, title, image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} }\n    },\n    materials{ enabled, heading, body, closing, items[]{ _key, title, image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} } },\n    intelligentResources{ enabled, heading, body, image{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    internationalExperience{\n      enabled, heading, note,\n      timeline[]{ _key, country, period, text },\n      cta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n}\n    },\n    availableResidences{\n      enabled, eyebrow, viewLabel, enquireLabel,\n      projects[]->{\n  _id,\n  name,\n  "slug": slug.current,\n  location,\n  locationDetail,\n  area,\n  bedrooms,\n  bathrooms,\n  typology,\n  status,\n  availabilityLabel,\n  showPrice,\n  "price": select(showPrice == true => price, null),\n  showFinancingNote,\n  enquiryInterest,\n  pageEnabled,\n  mainImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n}\n}\n    },\n    journalPreview{ enabled, heading, intro, mode, cta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n} },\n    "journalArticles": select(\n      journalPreview.mode == "manual" => journalPreview.articles[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n},\n      *[_type == "article" && language == $language && defined(slug.current)]\n        | order(publishedAt desc)[0...3]{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n}\n    ),\n    contact{ enabled, heading, subheading, body }\n  }\n': HOME_QUERY_RESULT;
     '\n  *[_type == "aboutPage" && language == $language][0]{\n    _id,\n    _type,\n    eyebrow,\n    heading,\n    subheading,\n    portrait{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n    founderName,\n    founderRole,\n    intro,\n    chapters[]{ _key, country, period, body, images[]{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    credentialsHeading,\n    credentials[]{ _key, title, issuer, year },\n    philosophyEyebrow,\n    philosophyHeading,\n    beliefs,\n    philosophyClosing,\n    closingStatement,\n    closingSupporting,\n    primaryCta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n},\n    secondaryCta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n},\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} }\n  }\n': ABOUT_QUERY_RESULT;
     '\n  *[_type == "journalPage" && language == $language][0]{\n    _id,\n    _type,\n    eyebrow,\n    heading,\n    intro,\n    heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n    featuredLabel,\n    "featuredArticle": featuredArticle->{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n},\n    closingStatement,\n    closingCta{\n  _key,\n  label,\n  linkType,\n  anchor,\n  path,\n  url,\n  "ref": reference->{ _type, "slug": slug.current, pageEnabled }\n},\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} }\n  }\n': JOURNAL_PAGE_QUERY_RESULT;
+    '\n  *[_type == "privacyPage" && language == $language][0]{\n    _id,\n    _type,\n    eyebrow,\n    heading,\n    intro,\n    lastUpdated,\n    body,\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} }\n  }\n': PRIVACY_QUERY_RESULT;
     '\n  *[_type == "project" && language == $language && slug.current == $slug][0]{\n    ...{\n  _id,\n  name,\n  "slug": slug.current,\n  location,\n  locationDetail,\n  area,\n  bedrooms,\n  bathrooms,\n  typology,\n  status,\n  availabilityLabel,\n  showPrice,\n  "price": select(showPrice == true => price, null),\n  showFinancingNote,\n  enquiryInterest,\n  pageEnabled,\n  mainImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n}\n},\n    intro,\n    concept,\n    highlights,\n    availability,\n    gallery[]{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    "translations": *[_type == "translation.metadata" && references(^._id)][0]\n      .translations[].value->{ language, "slug": slug.current, pageEnabled }\n  }\n': PROJECT_QUERY_RESULT;
     '\n  *[_type == "article" && language == $language && defined(slug.current)]\n    | order(publishedAt desc){\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n}\n': JOURNAL_INDEX_QUERY_RESULT;
     '\n  *[_type == "article" && language == $language && slug.current == $slug][0]{\n    ...{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n},\n    body,\n    "author": author->name,\n    seo{ title, description, noIndex, shareImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n} },\n    socialImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n    "relatedArticles": relatedArticles[]->{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n},\n    "latestArticles": *[\n      _type == "article" && language == $language && defined(slug.current) && slug.current != $slug\n    ] | order(publishedAt desc)[0...3]{\n  _id,\n  title,\n  "slug": slug.current,\n  excerpt,\n  publishedAt,\n  heroImage{\n  asset,\n  crop,\n  hotspot,\n  alt,\n  caption,\n  "lqip": asset->metadata.lqip,\n  "aspectRatio": asset->metadata.dimensions.aspectRatio\n},\n  "category": category->title,\n  "readingTime": round(length(pt::text(body)) / 5 / 200)\n},\n    "translations": *[_type == "translation.metadata" && references(^._id)][0]\n      .translations[].value->{ language, "slug": slug.current }\n  }\n': ARTICLE_QUERY_RESULT;
-    '{\n  "projects": *[_type == "project" && pageEnabled == true && defined(slug.current) && seo.noIndex != true]{\n    language, "slug": slug.current, _updatedAt\n  },\n  "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{\n    language, "slug": slug.current, _updatedAt\n  },\n  "home": *[_type == "homePage"]{ language, _updatedAt }\n}': SITEMAP_QUERY_RESULT;
+    '{\n  "projects": *[_type == "project" && pageEnabled == true && defined(slug.current) && seo.noIndex != true]{\n    language, "slug": slug.current, _updatedAt\n  },\n  "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{\n    language, "slug": slug.current, _updatedAt\n  },\n  "home": *[_type == "homePage"]{ language, _updatedAt },\n  "privacy": *[_type == "privacyPage" && defined(body[0]) && seo.noIndex != true]{ language, _updatedAt }\n}': SITEMAP_QUERY_RESULT;
     '\n  *[_type == "project" && pageEnabled == true && defined(slug.current)]{\n    language, "slug": slug.current\n  }\n': PROJECT_SLUGS_QUERY_RESULT;
   }
 }

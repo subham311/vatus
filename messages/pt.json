@@ -106,6 +106,10 @@
       "general": "Assunto geral"
     }
   },
+  "privacy": {
+    "eyebrow": "Legal",
+    "lastUpdated": "Última atualização: {date}"
+  },
   "pages": {
     "about": "Sobre a VATUS",
     "journal": "Journal",

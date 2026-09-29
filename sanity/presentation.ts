@@ -11,6 +11,8 @@ export const resolve: PresentationPluginOptions["resolve"] = {
     { route: "/en/about", filter: `_type == "aboutPage" && language == "en"` },
     { route: "/journal", filter: `_type == "journalPage" && language == "pt"` },
     { route: "/en/journal", filter: `_type == "journalPage" && language == "en"` },
+    { route: "/privacy", filter: `_type == "privacyPage" && language == "pt"` },
+    { route: "/en/privacy", filter: `_type == "privacyPage" && language == "en"` },
     {
       route: "/projects/:slug",
       filter: `_type == "project" && language == "pt" && slug.current == $slug`,
@@ -45,6 +47,12 @@ export const resolve: PresentationPluginOptions["resolve"] = {
       select: { language: "language" },
       resolve: (doc) => ({
         locations: [{ title: "Journal", href: `${localePrefix(doc?.language)}/journal` }],
+      }),
+    }),
+    privacyPage: defineLocations({
+      select: { language: "language" },
+      resolve: (doc) => ({
+        locations: [{ title: "Privacy policy", href: `${localePrefix(doc?.language)}/privacy` }],
       }),
     }),
     siteSettings: defineLocations({

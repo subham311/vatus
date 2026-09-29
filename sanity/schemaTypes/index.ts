@@ -21,6 +21,7 @@ import { seo } from "./objects/seo";
 import { aboutPage } from "./singletons/aboutPage";
 import { homePage } from "./singletons/homePage";
 import { journalPage } from "./singletons/journalPage";
+import { privacyPage } from "./singletons/privacyPage";
 import { siteSettings } from "./singletons/siteSettings";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
@@ -29,6 +30,7 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   homePage,
   aboutPage,
   journalPage,
+  privacyPage,
   // Documents
   project,
   article,

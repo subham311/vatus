@@ -175,6 +175,19 @@ export const JOURNAL_PAGE_QUERY = defineQuery(`
   }
 `);
 
+export const PRIVACY_QUERY = defineQuery(`
+  *[_type == "privacyPage" && language == $language][0]{
+    _id,
+    _type,
+    eyebrow,
+    heading,
+    intro,
+    lastUpdated,
+    body,
+    seo{ title, description, noIndex, shareImage${IMAGE} }
+  }
+`);
+
 export const PROJECT_QUERY = defineQuery(`
   *[_type == "project" && language == $language && slug.current == $slug][0]{
     ...${PROJECT_CARD},
@@ -217,7 +230,8 @@ export const SITEMAP_QUERY = defineQuery(`{
   "articles": *[_type == "article" && defined(slug.current) && seo.noIndex != true]{
     language, "slug": slug.current, _updatedAt
   },
-  "home": *[_type == "homePage"]{ language, _updatedAt }
+  "home": *[_type == "homePage"]{ language, _updatedAt },
+  "privacy": *[_type == "privacyPage" && defined(body[0]) && seo.noIndex != true]{ language, _updatedAt }
 }`);
 
 export const PROJECT_SLUGS_QUERY = defineQuery(`

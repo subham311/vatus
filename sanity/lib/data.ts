@@ -4,7 +4,7 @@ import { cache } from "react";
 import type { Locale } from "@/i18n/routing";
 import { withLocaleFallback } from "./fetch";
 import { sanityFetch } from "./live";
-import { ABOUT_QUERY, HOME_QUERY, JOURNAL_PAGE_QUERY, SETTINGS_QUERY } from "./queries";
+import { ABOUT_QUERY, HOME_QUERY, JOURNAL_PAGE_QUERY, PRIVACY_QUERY, SETTINGS_QUERY } from "./queries";
 
 export const getSettings = cache(async (locale: Locale) =>
   withLocaleFallback(locale, "siteSettings", (language) =>
@@ -30,7 +30,14 @@ export const getJournalPage = cache(async (locale: Locale) =>
   ),
 );
 
+export const getPrivacy = cache(async (locale: Locale) =>
+  withLocaleFallback(locale, "privacyPage", (language) =>
+    sanityFetch({ query: PRIVACY_QUERY, params: { language } }),
+  ),
+);
+
 export type Settings = NonNullable<Awaited<ReturnType<typeof getSettings>>["data"]>;
 export type Home = NonNullable<Awaited<ReturnType<typeof getHome>>["data"]>;
 export type About = NonNullable<Awaited<ReturnType<typeof getAbout>>["data"]>;
 export type JournalPage = NonNullable<Awaited<ReturnType<typeof getJournalPage>>["data"]>;
+export type Privacy = NonNullable<Awaited<ReturnType<typeof getPrivacy>>["data"]>;
