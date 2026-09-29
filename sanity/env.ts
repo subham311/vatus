@@ -1,19 +1,21 @@
 export const apiVersion =
   process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-08-15";
 
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_DATASET",
-);
+/*
+ * The project ID and dataset are public (they ship in the browser bundle), so
+ * a missing variable falls back to the VATUS project instead of failing the
+ * build. Set them in the hosting environment to point at another project.
+ */
+export const dataset = withFallback(process.env.NEXT_PUBLIC_SANITY_DATASET, "production", "NEXT_PUBLIC_SANITY_DATASET");
 
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  "Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID",
-);
+export const projectId = withFallback(process.env.NEXT_PUBLIC_SANITY_PROJECT_ID, "089y29c4", "NEXT_PUBLIC_SANITY_PROJECT_ID");
 
 export const studioUrl = "/studio";
 
-function assertValue<T>(v: T | undefined, errorMessage: string): T {
-  if (v === undefined || v === "") throw new Error(errorMessage);
-  return v;
+function withFallback(value: string | undefined, fallback: string, name: string): string {
+  if (value) return value;
+  if (typeof window === "undefined") {
+    console.warn(`[sanity] ${name} is not set; using "${fallback}".`);
+  }
+  return fallback;
 }
