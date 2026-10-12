@@ -1,12 +1,12 @@
 import { getTranslations } from "next-intl/server";
 import { stegaClean } from "next-sanity";
 import { Link } from "@/i18n/navigation";
+import { BrandLockup } from "@/components/ui/BrandLockup";
 import { InstagramIcon } from "@/components/ui/BrandIcons";
 import { gtmId } from "@/lib/consent";
 import { resolveCta, withProjectsIndex, type ResolvedLink } from "@/lib/links";
 import type { Settings } from "@/sanity/lib/data";
 import { CookieSettingsButton } from "./CookieConsent";
-import { Wordmark } from "./Header";
 
 export async function Footer({ settings, projectsIndex = false }: { settings: Settings | null; projectsIndex?: boolean }) {
   const t = await getTranslations("common");
@@ -22,12 +22,7 @@ export async function Footer({ settings, projectsIndex = false }: { settings: Se
     <footer className="border-t border-line bg-bg">
       <div className="container-site grid gap-12 py-16 md:grid-cols-[1.2fr_1fr] md:py-20 lg:grid-cols-[1.4fr_1fr_auto]">
         <div className="flex flex-col gap-4">
-          <Wordmark
-            settings={settings}
-            variant="long"
-            className="font-display text-[2.25rem] leading-none tracking-[0.08em]"
-            imgClassName="h-14 max-w-[18rem] self-start md:h-16"
-          />
+          <BrandLockup tagline={t("tagline")} size="lg" className="self-start" />
           {settings?.descriptor ? (
             <p className="eyebrow text-[0.6875rem] text-muted">{settings.descriptor}</p>
           ) : null}
@@ -68,7 +63,7 @@ export async function Footer({ settings, projectsIndex = false }: { settings: Se
       <div className="border-t border-line">
         <div className="container-site flex flex-col gap-2 py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {settings?.siteName || "VATUS"}. {t("rights")}
+            © {year} {t("companyName")}. {t("rights")}
           </p>
           <div className="flex flex-wrap gap-x-6">
             {privacy ? (

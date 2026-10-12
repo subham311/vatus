@@ -61,7 +61,7 @@ export function HeaderNav({
   return (
     <>
       <nav aria-label={t("primaryNav")} className="hidden items-center lg:flex">
-        <ul className="flex items-center gap-7 xl:gap-9">
+        <ul className="flex items-center gap-5 xl:gap-8 2xl:gap-9">
           {items.map((item) => {
             const anchor = anchorOf(item.href);
             const current = anchor
@@ -101,7 +101,7 @@ export function HeaderNav({
         </div>
         {cta ? (
           <div className="hidden md:block">
-            <Link href={cta.href} className={buttonClasses("primary", "min-h-10 !px-5 !py-2 text-sm")}>
+            <Link href={cta.href} className={buttonClasses("primary", "min-h-10 whitespace-nowrap !px-5 !py-2 text-sm")}>
               <span>{cta.label}</span>
               <Arrow />
             </Link>

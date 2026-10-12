@@ -62,19 +62,17 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {!heroH1 ? <h1 className="sr-only">VATUS</h1> : null}
       {on(home.hero) ? <Hero data={home.hero} /> : null}
       {on(home.manifesto) ? <Manifesto data={home.manifesto} /> : null}
-      {on(home.brandStatement) ? <BrandStatement data={home.brandStatement} /> : null}
       {on(home.selectedResidence) ? (
         <SelectedResidence data={home.selectedResidence} hasFloorPlan={showFloorPlan} />
       ) : null}
       {on(home.projectGallery) && project ? (
         <ProjectGallery data={home.projectGallery} images={project.gallery ?? []} />
       ) : null}
+      {on(home.internationalExperience) ? <InternationalExperience data={home.internationalExperience} /> : null}
+      {on(home.constructionQuality) ? <ConstructionQuality data={home.constructionQuality} /> : null}
       {showFloorPlan && home.floorPlan ? <FloorPlan data={home.floorPlan} plan={project?.plan ?? null} /> : null}
       {on(home.designPrinciples) ? <DesignPrinciples data={home.designPrinciples} /> : null}
-      {on(home.constructionQuality) ? <ConstructionQuality data={home.constructionQuality} /> : null}
       {on(home.materials) ? <Materials data={home.materials} /> : null}
-      {on(home.intelligentResources) ? <IntelligentResources data={home.intelligentResources} /> : null}
-      {on(home.internationalExperience) ? <InternationalExperience data={home.internationalExperience} /> : null}
       {on(home.availableResidences) ? (
         <AvailableResidences
           data={home.availableResidences}
@@ -83,6 +81,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         />
       ) : null}
       {on(home.journalPreview) ? <JournalPreview data={home.journalPreview} articles={home.journalArticles ?? []} /> : null}
+      {on(home.brandStatement) ? <BrandStatement data={home.brandStatement} /> : null}
+      {on(home.intelligentResources) ? <IntelligentResources data={home.intelligentResources} /> : null}
       {on(home.contact) ? <Contact data={home.contact} settings={settings} /> : null}
     </main>
   );
