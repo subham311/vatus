@@ -85,7 +85,7 @@ export const homePage = defineType({
         name: "image",
         title: "Interior image",
         type: "imageWithAlt",
-        ...imageSize({ width: 2000, height: 1250, note: "Landscape, shown at 16:10." }),
+        ...imageSize({ width: 2000, height: 800, note: "Wide panoramic landscape, shown at 5:2." }),
       }),
     ]),
     section("brandStatement", "03 Brand statement", [

@@ -156,7 +156,7 @@ export function AboutPhilosophy({ data }: { data: About }) {
   if (!beliefs.length && !data.philosophyHeading) return null;
   return (
     <section aria-labelledby="philosophy-heading" className="on-dark bg-olive text-on-dark">
-      <div className="container-site grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-12 lg:gap-16">
+      <div className="container-site grid gap-12 py-[clamp(3.5rem,6vw,6rem)] lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-4">
           {data.philosophyEyebrow ? (
             <p className="eyebrow text-[0.6875rem] text-on-dark-muted">{data.philosophyEyebrow}</p>
@@ -198,7 +198,7 @@ export function AboutClosing({ data }: { data: About }) {
   const secondary = resolveCta(data.secondaryCta);
   return (
     <section aria-labelledby="closing-heading" className="on-dark bg-charcoal text-on-dark">
-      <div className="container-site py-[clamp(6rem,14vw,12rem)]">
+      <div className="container-site py-[clamp(3.5rem,6vw,6rem)]">
         <Reveal className="max-w-[68rem]">
           <h2 id="closing-heading" className="font-display text-statement text-on-dark">
             {data.closingStatement}

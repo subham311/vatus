@@ -116,7 +116,7 @@ export const project = defineType({
       of: [
         defineArrayMember({
           type: "imageWithAlt",
-          validation: imageSize({ width: 2400, height: 1600, minWidth: 1600 }).validation,
+          validation: imageSize({ width: 2400, height: 1600, minWidth: 1200 }).validation,
         }),
       ],
       validation: (R) => R.max(10),

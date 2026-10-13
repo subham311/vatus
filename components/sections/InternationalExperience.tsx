@@ -10,7 +10,7 @@ export function InternationalExperience({ data }: { data: NonNullable<Home["inte
 
   return (
     <section aria-labelledby="experience-heading" className="on-dark bg-olive text-on-dark">
-      <div className="container-site grid gap-12 py-[clamp(5rem,10vw,8rem)] lg:grid-cols-12 lg:gap-0">
+      <div className="container-site grid gap-12 py-[clamp(3.5rem,6vw,6rem)] lg:grid-cols-12 lg:gap-0">
         <Reveal className="lg:col-span-4 lg:border-r lg:border-line-dark lg:pr-12">
           {data.heading ? (
             <SectionHeading id="experience-heading" className="text-on-dark">

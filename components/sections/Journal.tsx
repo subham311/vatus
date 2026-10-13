@@ -150,7 +150,7 @@ export async function JournalClosing({ data }: { data: Data }) {
 
   return (
     <section aria-labelledby="journal-closing-heading" className="on-dark bg-charcoal text-on-dark">
-      <div className="container-site flex flex-col gap-10 py-[clamp(5rem,10vw,8rem)] md:flex-row md:items-end md:justify-between">
+      <div className="container-site flex flex-col gap-10 py-[clamp(3.5rem,6vw,6rem)] md:flex-row md:items-end md:justify-between">
         <Reveal className="max-w-[44rem]">
           <h2 id="journal-closing-heading" className="font-display text-section text-on-dark">
             {statement}

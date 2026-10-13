@@ -25,7 +25,7 @@ export async function Manifesto({ data }: { data: NonNullable<Home["manifesto"]>
         <Reveal variant="image" className="lg:col-span-7">
           <SanityImage
             image={data.image}
-            aspect={16 / 10}
+            aspect={5 / 2}
             sizes="(min-width: 1024px) 58vw, 100vw"
             placeholderLabel={t("imageToCome")}
           />

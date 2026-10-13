@@ -39,7 +39,7 @@ export const article = defineType({
       name: "heroImage",
       type: "imageWithAlt",
       group: "content",
-      ...imageSize({ width: 2400, height: 1350, minWidth: 1600, note: "Shown at 16:9 on the article and 4:3 on journal cards." }),
+      ...imageSize({ width: 2400, height: 1350, minWidth: 1200, note: "Shown at 16:9 on the article and 4:3 on journal cards." }),
     }),
     defineField({
       name: "body",
