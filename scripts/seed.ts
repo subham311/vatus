@@ -9,14 +9,14 @@
 import { randomUUID } from "node:crypto";
 import { createClient } from "next-sanity";
 
-const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
-const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
+const projectId = process.env.NEXT_SANITY_PROJECT_ID;
+const dataset = process.env.NEXT_SANITY_DATASET;
 const token = process.env.SANITY_API_WRITE_TOKEN;
-const apiVersion = process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2025-08-15";
+const apiVersion = process.env.NEXT_SANITY_API_VERSION || "2025-08-15";
 
 if (!projectId || !dataset || !token) {
   console.error(
-    "Missing NEXT_PUBLIC_SANITY_PROJECT_ID, NEXT_PUBLIC_SANITY_DATASET or SANITY_API_WRITE_TOKEN.",
+    "Missing NEXT_SANITY_PROJECT_ID, NEXT_SANITY_DATASET or SANITY_API_WRITE_TOKEN.",
   );
   process.exit(1);
 }

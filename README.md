@@ -33,13 +33,13 @@ npm run dev                  # http://localhost:3000, Studio at /studio
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SANITY_PROJECT_ID` | yes | Sanity project ID |
-| `NEXT_PUBLIC_SANITY_DATASET` | yes | Dataset, e.g. `production` |
-| `NEXT_PUBLIC_SANITY_API_VERSION` | no | Defaults to `2025-08-15` |
+| `NEXT_SANITY_PROJECT_ID` | yes | Sanity project ID |
+| `NEXT_SANITY_DATASET` | yes | Dataset, e.g. `production` |
+| `NEXT_SANITY_API_VERSION` | no | Defaults to `2025-08-15` |
 | `SANITY_API_READ_TOKEN` | yes | **Viewer** token. Draft mode, Presentation preview and live drafts. Server-side only. |
 | `SANITY_API_WRITE_TOKEN` | yes | **Editor** token. Saves contact enquiries and runs the seed. Server-side only, never exposed to the browser. |
-| `NEXT_PUBLIC_SITE_URL` | yes | Public origin, e.g. `https://vatus.com.br`. Used for canonical, hreflang, sitemap and Open Graph URLs. |
-| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` | prod | Cloudflare Turnstile site key. Leave empty in development to skip the widget. |
+| `NEXT_SITE_URL` | yes | Public origin, e.g. `https://vatus.com.br`. Used for canonical, hreflang, sitemap and Open Graph URLs. |
+| `NEXT_TURNSTILE_SITE_KEY` | prod | Cloudflare Turnstile site key. Leave empty in development to skip the widget. |
 | `TURNSTILE_SECRET_KEY` | prod | Turnstile secret. When empty, the form relies on the honeypot and rate limit only. |
 | `RESEND_API_KEY` | no | Enables an email notification for each enquiry. |
 | `CONTACT_TO_EMAIL` | no | Recipient(s) of enquiry emails, comma-separated. |
@@ -125,7 +125,7 @@ Events are pushed to `window.dataLayer` for Google Tag Manager:
 ## Deployment (Vercel)
 
 1. Import the repository in Vercel (framework preset: Next.js).
-2. Add all environment variables above for Production (and Preview). Set `NEXT_PUBLIC_SITE_URL` to the production origin.
+2. Add all environment variables above for Production (and Preview). Set `NEXT_SITE_URL` to the production origin.
 3. In Sanity (`npx sanity cors add <origin> --credentials` or manage.sanity.io → API → CORS origins), add with **Allow credentials**:
    - the production origin, e.g. `https://vatus.com.br`
    - `https://*.vercel.app` if you use preview deployments

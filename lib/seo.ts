@@ -4,7 +4,7 @@ import { routing, type Locale } from "@/i18n/routing";
 import { urlFor } from "@/sanity/lib/image";
 import type { SanityImageData } from "@/components/ui/SanityImage";
 
-export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
+export const siteUrl = (process.env.NEXT_SITE_URL || "http://localhost:3000").replace(/\/$/, "");
 
 /** Used only when the CMS has no SEO copy for the page or the site. */
 export const DEFAULT_TITLE: Record<Locale, string> = {

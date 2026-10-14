@@ -2,7 +2,7 @@
  * Cookie consent for analytics. Google Tag Manager only loads once a visitor
  * accepts; the choice is kept in a first-party cookie for six months.
  */
-export const gtmId = process.env.NEXT_PUBLIC_GTM_ID?.trim() || "";
+export const gtmId = process.env.NEXT_GTM_ID?.trim() || "";
 
 export type Consent = "granted" | "denied";
 

@@ -85,7 +85,7 @@ for (const file of SCAN.flatMap(files)) {
 }
 
 async function checkDataset() {
-  const { NEXT_PUBLIC_SANITY_PROJECT_ID: projectId, NEXT_PUBLIC_SANITY_DATASET: dataset } = process.env;
+  const { NEXT_SANITY_PROJECT_ID: projectId, NEXT_SANITY_DATASET: dataset } = process.env;
   const token = process.env.SANITY_API_READ_TOKEN;
   if (!projectId || !dataset) {
     console.log("• Skipping dataset check (no Sanity env).");

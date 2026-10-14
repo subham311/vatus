@@ -76,7 +76,7 @@ export async function Contact({
         </Reveal>
 
         <div className="lg:col-span-7">
-          <ContactForm interests={interests} turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || undefined} />
+          <ContactForm interests={interests} turnstileSiteKey={process.env.NEXT_TURNSTILE_SITE_KEY || undefined} />
         </div>
       </div>
     </section>
