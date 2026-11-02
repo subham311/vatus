@@ -46,7 +46,10 @@
     "next": "Próxima imagem",
     "close": "Fechar galeria",
     "slideOf": "{index} de {total}",
-    "lightbox": "Visualizador de imagens"
+    "lightbox": "Visualizador de imagens",
+    "title": "{name} por dentro",
+    "viewAll": "Ver as {count} fotos",
+    "more": "+{count} {count, plural, one {foto} other {fotos}}"
   },
   "floorPlan": {
     "viewFullScreen": "Ver em tela cheia",

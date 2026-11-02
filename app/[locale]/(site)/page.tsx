@@ -66,7 +66,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         <SelectedResidence data={home.selectedResidence} hasFloorPlan={showFloorPlan} />
       ) : null}
       {on(home.projectGallery) && project ? (
-        <ProjectGallery data={home.projectGallery} images={project.gallery ?? []} />
+        <ProjectGallery data={home.projectGallery} images={project.gallery ?? []} projectName={project.name} />
       ) : null}
       {on(home.internationalExperience) ? <InternationalExperience data={home.internationalExperience} /> : null}
       {on(home.constructionQuality) ? <ConstructionQuality data={home.constructionQuality} /> : null}

@@ -46,7 +46,10 @@
     "next": "Next image",
     "close": "Close gallery",
     "slideOf": "{index} of {total}",
-    "lightbox": "Image viewer"
+    "lightbox": "Image viewer",
+    "title": "Inside {name}",
+    "viewAll": "View all {count} photos",
+    "more": "+{count} {count, plural, one {photo} other {photos}}"
   },
   "floorPlan": {
     "viewFullScreen": "View full screen",

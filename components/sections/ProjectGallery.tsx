@@ -1,25 +1,39 @@
 import { getTranslations } from "next-intl/server";
 import { stegaClean } from "next-sanity";
+import { Eyebrow } from "@/components/ui/Eyebrow";
 import { SanityImage, type SanityImageData } from "@/components/ui/SanityImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { cn } from "@/lib/cn";
 import { urlFor } from "@/sanity/lib/image";
 import type { Home } from "@/sanity/lib/data";
 import { GalleryGrid, type GalleryTile } from "./GalleryGrid";
 import type { LightboxSlide } from "./GalleryLightbox";
 
+/** The grid shows at most five tiles; the lightbox holds every image. */
+const MAX_TILES = 5;
+
+const BIG = "col-span-2 aspect-[4/3] sm:aspect-[16/9] md:aspect-auto md:row-span-2";
+const SMALL = "aspect-square md:aspect-auto";
+const WIDE = "col-span-2 aspect-[16/9] md:aspect-auto md:col-span-2";
+
 /**
- * Asymmetric editorial layout on desktop (12-column grid). On mobile the
- * tiles stack in story order: façade, living, bedroom, bathroom, outdoor, detail.
+ * Feature layout: one large image on the left (half the width, both rows),
+ * the rest fill the right half. Classes per tile count so the grid never has
+ * gaps or empty placeholders. Mobile: wide first image, then a 2-up grid.
  */
-const LAYOUT = [
-  { span: "md:col-span-7", aspect: 4 / 3, sizes: "(min-width: 768px) 58vw, 100vw" },
-  { span: "md:col-span-5 md:mt-24", aspect: 4 / 5, sizes: "(min-width: 768px) 42vw, 100vw" },
-  { span: "md:col-span-5", aspect: 4 / 5, sizes: "(min-width: 768px) 42vw, 100vw" },
-  { span: "md:col-span-7 md:mt-16", aspect: 4 / 3, sizes: "(min-width: 768px) 58vw, 100vw" },
-  { span: "md:col-span-8", aspect: 16 / 10, sizes: "(min-width: 768px) 66vw, 100vw" },
-  { span: "md:col-span-4 md:mt-20", aspect: 3 / 4, sizes: "(min-width: 768px) 33vw, 100vw" },
-];
+function layoutFor(count: number): string[] {
+  switch (count) {
+    case 1:
+      return [`${BIG} md:col-span-4`];
+    case 2:
+      return [`${BIG} md:col-span-2`, `${WIDE} md:row-span-2`];
+    case 3:
+      return [`${BIG} md:col-span-2`, `${SMALL} md:col-span-2`, `${SMALL} md:col-span-2`];
+    case 4:
+      return [`${BIG} md:col-span-2`, SMALL, SMALL, WIDE];
+    default:
+      return [`${BIG} md:col-span-2`, SMALL, SMALL, SMALL, SMALL];
+  }
+}
 
 const SLIDE_WIDTHS = [640, 1080, 1600, 2400];
 
@@ -37,33 +51,39 @@ function toSlide(image: NonNullable<SanityImageData>, alt: string): LightboxSlid
 export async function ProjectGallery({
   data,
   images,
+  projectName,
 }: {
   data: NonNullable<Home["projectGallery"]>;
   images: SanityImageData[];
+  projectName?: string | null;
 }) {
   const t = await getTranslations("gallery");
   const tc = await getTranslations("common");
-  const max = Math.min(Math.max(stegaClean(data.maxImages) ?? 6, 4), 6);
 
-  // Always show the full composition: real images first, placeholders after.
-  const list = [...images.filter((img) => img?.asset?._ref), ...Array(max).fill(null)].slice(0, max);
-  const withImage = list.filter(Boolean) as NonNullable<SanityImageData>[];
-  const slides = withImage.map((img, i) => toSlide(img, img.alt || `${i + 1}`));
+  const all = images.filter((img): img is NonNullable<SanityImageData> => Boolean(img?.asset?._ref));
+  if (!all.length) return null;
 
-  let slideCursor = 0;
-  const tiles: GalleryTile[] = list.map((image, i) => {
-    const layout = LAYOUT[i % LAYOUT.length];
-    const slideIndex = image ? slideCursor++ : null;
+  const max = Math.min(Math.max(stegaClean(data.maxImages) ?? MAX_TILES, 1), MAX_TILES);
+  const shown = all.slice(0, max);
+  const hidden = all.length - shown.length;
+  const layout = layoutFor(shown.length);
+  const slides = all.map((img, i) => toSlide(img, img.alt || `${i + 1}`));
+
+  const tiles: GalleryTile[] = shown.map((image, i) => {
+    const isBig = i === 0;
+    const isLast = i === shown.length - 1;
     return {
-      key: `${i}-${image?.asset?._ref ?? "placeholder"}`,
-      className: cn(layout.span),
-      slideIndex,
-      openLabel: t("open", { index: (slideIndex ?? 0) + 1, total: slides.length, alt: image?.alt ?? "" }),
+      key: `${i}-${image.asset?._ref}`,
+      className: layout[i] ?? SMALL,
+      slideIndex: i,
+      openLabel: t("open", { index: i + 1, total: slides.length, alt: image.alt ?? "" }),
+      caption: image.caption || image.alt,
+      more: isLast && hidden > 0 ? t("more", { count: hidden }) : null,
       media: (
         <SanityImage
           image={image}
-          aspect={layout.aspect}
-          sizes={layout.sizes}
+          fill
+          sizes={isBig ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 25vw, 50vw"}
           hoverScale
           placeholderLabel={tc("imageToCome")}
         />
@@ -71,24 +91,31 @@ export async function ProjectGallery({
     };
   });
 
-  const heading = data.heading || t("label");
+  const label = stegaClean(data.heading) || t("label");
+  const title = projectName ? t("title", { name: projectName }) : label;
+
+  const header = (
+    <div>
+      {data.showHeading !== false || !projectName ? <Eyebrow className="mb-4">{label}</Eyebrow> : null}
+      <SectionHeading id="gallery-heading">{title}</SectionHeading>
+    </div>
+  );
 
   return (
     <section aria-labelledby="gallery-heading" className="pb-[var(--section-y)]">
       <div className="container-site">
-        <SectionHeading id="gallery-heading" className={cn("mb-12", !data.showHeading && "sr-only")}>
-          {heading}
-        </SectionHeading>
         <GalleryGrid
+          header={header}
           tiles={tiles}
           slides={slides}
+          viewAllLabel={t("viewAll", { count: slides.length })}
           labels={{
             previous: t("previous"),
             next: t("next"),
             close: t("close"),
             slideOf: t("slideOf", { index: "{index}", total: "{total}" }),
             lightbox: t("lightbox"),
-            gallery: heading,
+            gallery: title,
           }}
         />
       </div>
