@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -7,20 +7,11 @@ import { routing } from "@/i18n/routing";
 import { consentDefaultsScript, gtmId } from "@/lib/consent";
 import "../globals.css";
 
-// Large headings only. The optical-size axis gives the finer display cut at big sizes.
-const newsreader = Newsreader({
+// One family site-wide (client request, Nov 2026): Light for large headings,
+// Regular for body, Medium/SemiBold for menus and buttons. Variable font, so all weights load from one file.
+const manrope = Manrope({
   subsets: ["latin"],
-  style: ["normal"],
-  axes: ["opsz"],
-  variable: "--font-newsreader",
-  display: "swap",
-});
-
-// Everything else: navigation, body, buttons, labels and smaller headings.
-const inter = Inter({
-  subsets: ["latin"],
-  axes: ["opsz"],
-  variable: "--font-inter",
+  variable: "--font-manrope",
   display: "swap",
 });
 
@@ -50,7 +41,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={locale === "pt" ? "pt-BR" : "en"}
-      className={`${newsreader.variable} ${inter.variable}`}
+      className={manrope.variable}
       // The inline script below adds the "js" class before hydration.
       suppressHydrationWarning
     >

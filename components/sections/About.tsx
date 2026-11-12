@@ -19,9 +19,8 @@ export async function AboutHero({ data }: { data: About }) {
     <section className="container-site grid gap-12 pt-12 pb-[var(--section-y)] md:pt-20 lg:grid-cols-12 lg:items-end lg:gap-16">
       <Reveal className="lg:col-span-7 lg:pb-4">
         {data.eyebrow ? <Eyebrow>{data.eyebrow}</Eyebrow> : null}
-        <SectionHeading as="h1" size="display" className="mt-6 max-w-[14ch]">
-          {data.heading}
-        </SectionHeading>
+        {/* Smaller than the shared display size and no narrow ch cap, so the headline sets in about three lines. */}
+        <h1 className="mt-6 max-w-[22ch] font-display text-[clamp(2.5rem,4.6vw,4.75rem)] leading-[1.08]">{data.heading}</h1>
         {data.subheading ? (
           <p className="mt-8 max-w-[34rem] text-lead text-muted md:mt-10">{data.subheading}</p>
         ) : null}

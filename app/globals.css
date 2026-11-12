@@ -16,9 +16,9 @@
   --line-dark: rgba(245, 243, 238, 0.22);
   --placeholder: #e7e3da;
 
-  /* Swap the display face by changing this one token. */
-  --font-display: var(--font-newsreader), "Newsreader", Georgia, serif;
-  --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+  /* Manrope throughout. Keep the two tokens so the display face can still be swapped on its own. */
+  --font-display: var(--font-manrope), "Manrope", system-ui, sans-serif;
+  --font-body: var(--font-manrope), "Manrope", system-ui, sans-serif;
 
   --header-h: 4.5rem;
   --content-max: 80rem;
@@ -52,7 +52,7 @@
   --text-statement--line-height: 1.08;
   --text-lead: clamp(1.0625rem, 1.3vw, 1.25rem);
   --text-lead--line-height: 1.65;
-  --text-lead--font-weight: 300;
+  --text-lead--font-weight: 400;
 
   --tracking-eyebrow: 0.2em;
 }
@@ -139,20 +139,19 @@
   line-height: 1.4;
 }
 
-/* Refined serif, kept for the large headings. */
+/* Large headings: Manrope Light, tightened slightly for the big sizes. */
 @utility font-display {
   font-family: var(--font-display);
   font-weight: 300;
-  letter-spacing: -0.015em;
-  font-optical-sizing: auto;
+  letter-spacing: -0.018em;
   font-variant-numeric: lining-nums;
 }
 
-/* Clean sans for smaller headings: card titles, list items, sub-sections. */
+/* Smaller headings: card titles, list items, sub-sections. Manrope Regular. */
 @utility font-heading {
   font-family: var(--font-body);
-  font-weight: 300;
-  letter-spacing: -0.02em;
+  font-weight: 400;
+  letter-spacing: -0.015em;
 }
 
 @utility hairline {
