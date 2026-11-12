@@ -16,8 +16,8 @@ export async function AboutHero({ data }: { data: About }) {
   const t = await getTranslations("common");
   const caption = [data.founderName, data.founderRole].filter(Boolean).join(", ");
   return (
-    <section className="container-site grid gap-12 pt-12 pb-[var(--section-y)] md:pt-20 lg:grid-cols-12 lg:items-end lg:gap-16">
-      <Reveal className="lg:col-span-7 lg:pb-4">
+    <section className="container-site grid gap-12 pt-12 pb-[var(--section-y)] md:pt-20 lg:grid-cols-12 lg:items-center lg:gap-16">
+      <Reveal className="lg:col-span-7">
         {data.eyebrow ? <Eyebrow>{data.eyebrow}</Eyebrow> : null}
         {/* Smaller than the shared display size and no narrow ch cap, so the headline sets in about three lines. */}
         <h1 className="mt-6 max-w-[22ch] font-display text-[clamp(2.5rem,4.6vw,4.75rem)] leading-[1.08]">{data.heading}</h1>
