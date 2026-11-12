@@ -28,7 +28,8 @@ export async function AboutHero({ data }: { data: About }) {
       <Reveal variant="image" as="figure" className="lg:col-span-5">
         <SanityImage
           image={data.portrait}
-          aspect={4 / 5}
+          // The portrait's own proportions (2:3 for the founder photo), so head and feet are never cropped.
+          aspect={data.portrait?.aspectRatio ?? 2 / 3}
           priority
           sizes="(min-width: 1024px) 40vw, 100vw"
           placeholderLabel={t("imageToCome")}
